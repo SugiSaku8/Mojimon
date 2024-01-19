@@ -1,1 +1,751 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="icon" href="img/icon.webp" sizes="any" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>文字もん</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="https://apis.google.com/js/api.js"></script>
+  </head>
 
+  <body>
+    <script id="auto script">
+      let auto = 600000;
+    </script>
+    <script src="data.js"></script>
+    <script src="setup.js"></script>
+    <script src="login.js"></script>
+    <script src="node_modules/bcryptjs/dist/bcrypt.min.js"></script>
+    <audio src="sound/始まりの大陸bgm.mp3" autoplay id="hajimari" loop>
+      <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
+    </audio>
+    <audio src="sound/文字もんバトル.mp3" id="battle" loop>
+      <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
+    </audio>
+    <div id="jouhou">
+      <a style="display:none" id="teki_H"></a>
+      <a style="display:none" id="teki_name"></a>
+      <a style="display:none" id="teki_A"></a>
+      <a style="display:none" id="teki_B"></a>
+      <a style="display:none" id="teki_S"></a>
+      <a style="display:none" id="jibun_H"></a>
+      <a style="display:none" id="jibun_name"></a>
+      <a style="display:none" id="jibun_A"></a>
+      <a style="display:none" id="jibun_B"></a>
+      <a style="display:none" id="jibun_S"></a>
+
+    <div id="main">
+      <!--敵-->
+      <a id="teki_hp"></a>
+      <a>/</a>
+      <a id="teki_hp_max"></a>
+      <br />
+      <img id="teki_mojimon" src="" />
+      <br /><br /><br />
+      <!--自分-->
+      <img id="jibun_mojimon" src="" />
+      <br />
+      <a id="jibun_hp"></a>
+      <a>/</a>
+      <a id="jibun_hp_max"></a>
+
+      <button onclick="open_attack()" id="attack_button">こうげき</button>
+      <div id="attack">
+        <button class="white"id="taiatari"onclick="add_and_run(`waza.taiatari`)">たいあたり</button>
+        <button class="white"type="button" id="binta"  onclick="waza.binta(teki_result,jibun_result)">びんた</button>
+        <br />
+        <button class="waterB" type="button">
+          　もじもんの特性を考えて攻撃すると経験値が上がります。
+        </button>
+        <!----<button
+          class="waterB"
+          type="button"
+          onclick="waza.taiatari(teki_result,jibun_result)"
+        >
+          使わないから
+        </button>
+        ------>
+      </div>
+      <!-- (='X'=) -->
+      <button onclick="open_items()" id="items_button">アイテム</button>
+      <div id="items">
+        <button class="yellow" type="button">きずぐすり</button>
+        <button class="yellow" type="button">げんきのかけら</button>
+      </div>
+      <br />
+      <button onclick="modoru()" id="modoru_button" class="mini_button">
+        もどる
+      </button>
+    </div>
+    <h3 id="mes"></h3>
+    <script src="waza.js"></script>
+    <div id="start_window">
+      <div id="title_window">
+        <p id="title">もじもん</p>
+      </div>
+      <p></p>
+      <button id="start" onclick="setup()">スタート</button>
+      <p></p>
+      <button id="help" id="tutorial" onclick="tutorial()">ヘルプ</button>
+    </div>
+    <div id="tokusyu">
+      <div id="setup">
+        <button onclick="tutorial()">ヘルプ</button>
+        <h2>アカウント</h2>
+        <h4>初めて遊ぶ人→アカウント登録</h4>
+        <h4>2回目以降→ログイン</h4>
+        <button onclick="account_touroku()">アカウント登録</button>
+        <button onclick="account_login()">ログイン</button>
+      </div>
+      <div id="account_touroku_form">
+        <form method="POST">
+          <h2>アカウント登録</h2>
+          <h5>アカウントを登録したら、errorになってしまった人へ</h5>
+          <h6>
+            すでに同じ名前のアカウントが存在するようです。<br />別の名前に変更してください。
+          </h6>
+          名前　　　：<input type="text" name="name" /><br />
+          パスワード：<input type="password" name="password" /><br />
+          <input
+            type="submit"
+            onclick="document.getElementById('message').innerHTML = 'アカウントの登録に成功しました。'"
+            class="green"
+          />
+          <div id="message" style="color: green"></div>
+        </form>
+        <button onclick="setup();">もどる</button>
+      </div>
+      <div id="account_login_form">
+        <form id="searchForm">
+          <h2>文字もんアカウントでログイン</h2>
+          名前　　　：<input type="text" id="searchName" /><br />
+          パスワード: <input type="password" id="searchPassword" /><br />
+          <input
+            type="submit"
+            class="green"
+            name="ログインする"
+            onclick="loginUser(document.getElementById('searchName').value, document.getElementById('searchPassword').value)"
+          />
+          <div id="result" class="green"></div>
+        </form>
+      </div>
+      <div class="modal" id="modal">
+        <div class="popup glass rounded">
+          <h2>もじもん</h2>
+          <p>
+            Version:0.6.β <br />
+            Wide View β
+          </p>
+          <button class="button" onclick="back();">ゲームに戻る</button>
+          <br />
+          <button class="button" onclick="">設定</button>
+          <br />
+          <button class="button" onclick="back();">保存して終了</button>
+        </div>
+      </div>
+      <div class="modal" id="account">
+        <div
+          class="popup glass rounded"
+          style="background-color: #cae5cd; opacity: 0.9; font-weight: bold"
+        >
+          <a>アカウント名:<span id="name"></span></a><br /><br />
+          <a
+            >残りの<span style="font-weight: 400">⅊</span>:<span
+              id="pl_nokori"
+            ></span
+            ><span style="font-weight: 400">⅊</span></a
+          ><br /><br />
+          <a>経験値:<span id="exp"></span></a><br /><br />
+          <a>もじもんの一覧:<button id="mojimon_list">開く</button></a>
+          <br />
+          <a>アイテムの一覧:<button>開く</button></a>
+          <br />
+          <button class="button" onclick="back_e();">ゲームに戻る</button>
+          <script>
+            let exp = 99999999;
+            let pl_nokori = 99999999;
+            function update(id, text) {
+              document.getElementById(id).innerHTML = text;
+            }
+            function updata_info() {
+              document.getElementById("name").innerText = Login;
+              document.getElementById("pl_nokori").innerText = pl_nokori;
+              document.getElementById("exp").innerText = exp;
+            }
+            setInterval(updata_info, 1000);
+          </script>
+        </div>
+      </div>
+    </div>
+    <script>
+      var change;
+      var teki_hp;
+      var teki_hp2;
+      var teki_atk;
+      var teki_def;
+      var jibun_hp;
+      var jibun_hp2;
+      var jibun_atk;
+      var jibun_def;
+      var login_status;
+      var Login;
+      var teki_result = {};
+      var jibun_result = {};
+      function tutorial() {
+        alert("こんにちは！\n文字もんへようこそ！");
+        alert("ゲームの説明...ではなく\nスタート方法を教えます。");
+        alert(
+          "このゲームでは、データの保存\nなどのために、アカウントが必要です。",
+        );
+        alert(
+          "スタートボタンを押すと、\nアカウントを作るか、ログインするか\n選べます。",
+        );
+        alert("初めて遊ぶ人は、アカウントを作りましょう。");
+        alert(
+          "アカウントを作るときには、\n名前(本当の名前じゃなくてもいい)\nパスワード(忘れないようにしてください)\nが必要です。",
+        );
+        alert(
+          "もし、パスワード、名前を忘れた場合は、\n1組わとうそうすけか2組すぎやまさくやに直接言ってください。",
+        );
+        alert("アカウントを作った後は、ログインしましょう。");
+        alert("作った時に使った名前と\nパスワードを入力しましょう。");
+        alert("ログインしたら、\nゲームを始めることができます。");
+        alert("それでは、楽しんでください。");
+      }
+      function open_attack() {
+        //こうげきを開く
+        document.getElementById("attack_button").style.display = "none";
+        document.getElementById("items_button").style.display = "none";
+        document.all.attack.style.display = "block";
+        document.getElementById("modoru_button").style.display = "block";
+      }
+      function open_items() {
+        //アイテムを開く
+        document.getElementById("items_button").style.display = "none";
+        document.getElementById("attack_button").style.display = "none";
+        document.all.items.style.display = "block";
+        document.getElementById("modoru_button").style.display = "block";
+      }
+      function modoru() {
+        //もどる
+        document.getElementById("modoru_button").style.display = "none";
+        document.all.attack.style.display = "none";
+        document.all.items.style.display = "none";
+        document.getElementById("attack_button").style.display = "block";
+        document.getElementById("items_button").style.display = "block";
+      }
+      function data_send(check_result, isteki) {
+        if (isteki) {
+          document.getElementById("teki_mojimon").src =
+            `img/mojimon/${check_result.name}.png`;
+          var B = check_result.busyu;
+          var lv = 1; //仮
+          var hp = Math.floor(
+            10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
+          );
+          document.getElementById("teki_H").innerHTML = hp;
+          document.getElementById("teki_hp").innerHTML = hp;
+          document.getElementById("teki_hp_max").innerHTML = hp;
+          var atk = 
+        } else {
+          document.getElementById("jibun_mojimon").src =
+            `img/mojimon/${check_result.name}.png`;
+          var B = check_result.busyu;
+          var lv = 1; //仮
+          var hp = Math.floor(
+            10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
+          );
+          document.getElementById("jibun_H").innerHTML = hp;
+          document.getElementById("jibun_hp").innerHTML = hp;
+          document.getElementById("jibun_hp_max").innerHTML = hp;
+        }
+      }
+      function getData() {
+        mojimon_array = [
+          "火",
+          "山",
+          "水",
+          "石",
+          "金",
+          "土",
+          "月",
+          "日",
+          "木",
+          "雨",
+          "川",
+          "夕",
+          "花",
+          "草",
+          "右",
+          "左",
+          "一",
+          "二",
+          "三",
+          "四",
+          "五",
+          "六",
+          "七",
+          "八",
+          "九",
+          "十",
+          "上",
+          "下",
+          "円",
+          "王",
+          "音",
+          "貝",
+          "学",
+          "気",
+          "休",
+          "玉",
+          "空",
+          "犬",
+          "見",
+          "竹",
+          "田",
+          "口",
+          "白",
+          "青",
+          "赤",
+          "林",
+          "森",
+          "校",
+          "千",
+          "百",
+          "力",
+          "文",
+          "立",
+          "目",
+          "名",
+          "本",
+          "年",
+          "入",
+          "天",
+          "町",
+          "虫",
+          "中",
+          "男",
+          "女",
+          "大",
+          "小",
+          "糸",
+          "子",
+          "字",
+          "耳",
+          "車",
+          "手",
+          "出",
+          "人",
+          "正",
+          "生",
+          "先",
+          "早",
+          "足",
+          "村",
+        ];
+
+        for (i = mojimon_array.length; 1 < i; i--) {
+          k = Math.floor(Math.random() * i);
+          [mojimon_array[k], mojimon_array[i - 1]] = [
+            mojimon_array[i - 1],
+            mojimon_array[k],
+          ];
+        }
+
+        jibun_mojimon = mojimon_array[0];
+        jibun_result = check(jibun_mojimon);
+        data_send(jibun_result, false);
+
+        for (i = mojimon_array.length; 1 < i; i--) {
+          k = Math.floor(Math.random() * i);
+          [mojimon_array[k], mojimon_array[i - 1]] = [
+            mojimon_array[i - 1],
+            mojimon_array[k],
+          ];
+        }
+
+        teki_mojimon = mojimon_array[0];
+        teki_result = check(teki_mojimon);
+        data_send(teki_result, true);
+
+        {
+          var teki_B = teki_result.busyu;
+
+          var teki_lv = 1; //仮
+          function hp_keisan(A, B) {
+            var result = Math.floor(
+              10 + Math.log(30000 * A) + 6 * A + Math.log(3 ** B),
+            );
+            return result;
+          }
+          var teki_hp2 = hp_keisan(teki_B, teki_lv); //保存用
+          var teki_hp = teki_hp2;
+          var teki_NB = teki_result.kakusuu - teki_result.busyu;
+          var teki_atk = Math.floor(
+            20 +
+              Math.log(Math.log(4 ** ((teki_NB + 1) ** 2))) * 5 +
+              Math.log(3 ** teki_lv),
+          );
+          var teki_NBS = teki_NB - teki_result.busyu;
+          var teki_def_test = Math.floor(
+            20 +
+              Math.log(Math.log(4 ** ((-teki_NBS + 1) ** 2))) *
+                -5 *
+                (Math.abs(teki_NBS) / teki_NBS) +
+              Math.log(3 ** teki_lv),
+          );
+          var teki_def;
+          if (teki_def_test < 1) {
+            teki_def = 1;
+          } else if (teki_def_test == Infinity) {
+            teki_def = Math.floor(20 + Math.log(3 ** teki_lv));
+          } else if (teki_def_test) {
+            teki_def = teki_def_test;
+          } else {
+            teki_def = 20 + Math.floor(Math.log(3 ** teki_lv)) + 5;
+          }
+
+          var jibun_B = jibun_result.busyu;
+          var jibun_lv = 1; //仮
+          var jibun_hp2 = Math.floor(
+            10 +
+              Math.log(30000 * jibun_B) +
+              6 * jibun_B +
+              11 ** jibun_lv / 10 ** jibun_lv,
+          ); //保存用
+          var jibun_hp = jibun_hp2;
+          var jibun_NB = jibun_result.kakusuu - jibun_result.busyu;
+          var jibun_atk = Math.floor(
+            20 +
+              Math.log(Math.log(4 ** ((jibun_NB + 1) ** 2))) * 5 +
+              Math.log(3 ** jibun_lv),
+          );
+          var jibun_NBS = jibun_NB - jibun_result.busyu;
+          var jibun_def_test = Math.floor(
+            20 +
+              Math.log(Math.log(4 ** ((-jibun_NBS + 1) ** 2))) *
+                -5 *
+                (Math.abs(jibun_NBS) / jibun_NBS) +
+              Math.log(3 ** jibun_lv),
+          );
+          var jibun_def;
+          if (jibun_def_test < 1) {
+            jibun_def = 1;
+          } else if (jibun_def_test == Infinity) {
+            jibun_def = Math.floor(20 + Math.log(3 ** jibun_lv));
+          } else if (jibun_def_test) {
+            jibun_def = jibun_def_test;
+          } else {
+            jibun_def = 20 + Math.floor(Math.log(3 ** jibun_lv)) + 5;
+          }
+        }
+
+        return {
+          teki_result,
+          jibun_result,
+        };
+      }
+      function setup() {
+        getData();
+        document.getElementById("battle").pause();
+        document.getElementById("hajimari").play();
+        document.getElementById("start_window").style.display = "none";
+        document.getElementById("setup").style.display = "block";
+        document.all.account_touroku_form.style.display = "none";
+        document.all.account_login_form.style.display = "none";
+      }
+      function account_touroku() {
+        document.all.setup.style.display = "none";
+        document.all.account_touroku_form.style.display = "block";
+      }
+      function account_login() {
+        document.all.setup.style.display = "none";
+        document.all.account_login_form.style.display = "block";
+      }
+      async function loginUser(name, password) {
+        event.preventDefault(); // ページのリロードを防ぐ
+        try {
+          const response = await fetch(
+            "/get?name=" +
+              encodeURIComponent(name) +
+              "&password=" +
+              encodeURIComponent(password),
+          );
+          if (!response.ok) {
+            throw new Error("アカウント名が違います。");
+          }
+          const data = await response.json();
+          if (data.isMatch) {
+            Login = name;
+            login_status = true;
+            document.getElementById("result").innerText =
+              "ログインに成功しました。";
+            document.getElementById("main").style.display = "block";
+            document.getElementById("account_login_form").style.display =
+              "none";
+            document.getElementById("battle").play();
+            document.getElementById("hajimari").pause();
+            getData();
+          } else {
+            throw new Error("パスワードが違います。");
+          }
+        } catch (error) {
+          document.getElementById("result").innerText =
+            "Error: " + error.message;
+        }
+      }
+      window.addEventListener("DOMContentLoaded", function () {
+        //読み込まれたら発動
+
+        document.all.attack.style.display = "none";
+        document.all.items.style.display = "none";
+        document.getElementById("modoru_button").style.display = "none";
+        document.all.setup.style.display = "none";
+        document.all.account_touroku_form.style.display = "none";
+        document.all.account_login_form.style.display = "none";
+      });
+      window.onload = function () {
+        /*
+        document.getElementById("searchForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // ページのリロードを防ぐ
+
+
+            var name = document.getElementById("searchName").value;
+            var password = document.getElementById("searchPassword").value;
+            fetch('/get?name=' + encodeURIComponent(name))
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error('アカウント名が違います。');
+                 }
+                 return response.json();
+             })
+             .then(data => {
+                 return bcrypt.compare(password, data.password);
+             })
+             .then(isMatch => {
+                 if(isMatch) {
+                     document.getElementById('result').innerText = 'ログインに成功しました。';
+                 } else {
+                     throw new Error('パスワードが違います。')
+                 }
+             })
+             .catch(error => {
+                 document.getElementById('result').innerText = 'Error: ' + error.message;
+             });
+          });
+          */
+        // メッセージを表示
+        var message = localStorage.getItem("message");
+        if (message) {
+          document.getElementById("message").innerText = message;
+          localStorage.removeItem("message");
+        }
+      };
+      window.addEventListener("load", function () {
+        console.log("load：リソースファイルを全て読み込みました。");
+        document.getElementById("hajimari").play();
+      });
+      /*
+      var formElement = document.getElementById('searchForm');
+      if (formElement !== null) {
+       formElement.addEventListener('submit', function(event) {
+      document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // ページのリロードを防ぐ
+        var name = document.getElementById('searchName').value;
+        var password = document.getElementById('searchPassword').value;
+        fetch('/get?name=' + encodeURIComponent(name))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('アカウント名が違います。');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return bcrypt.compare(password, data.password);
+        })
+        .then(isMatch => {
+            if(isMatch) {
+                document.getElementById('result').innerText = 'ログインに成功しました。';
+            } else {
+                throw new Error('パスワードが違います。')
+            }
+        })
+        .catch(error => {
+            document.getElementById('result').innerText = 'Error: ' + error.message;
+        });
+          });
+        })
+      }
+      */
+    </script>
+    <video roop autoplay src="img/splash.mp4" id="splashScreen"></video>
+    <script>
+      document.getElementById("splashScreen").style.display = "block";
+      window.onload = function () {
+        document.getElementById("splashScreen").style.display = "none";
+        document.getElementById("start_window").style.display = "block";
+      };
+      function stop_game() {
+        document.getElementById("modal").style.display = "block";
+      }
+      function back() {
+        document.getElementById("modal").style.display = "none";
+      }
+
+      function back_e() {
+        document.getElementById("account").style.display = "none";
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          var change = document.getElementById("modal");
+
+          if (change.style.display == "block") {
+            change.style.display = "none";
+          } else {
+            change.style.display = "block";
+          }
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "e") {
+          var change = document.getElementById("account");
+
+          if (change.style.display == "block") {
+            change.style.display = "none";
+          } else {
+            change.style.display = "block";
+          }
+        }
+      });
+    </script>
+
+    <div id="trihiki">
+      <div id="dialog" class="glass" style="display: none">
+        <p id="dialogText"></p>
+        <button class="glassButton" id="close">閉じる</button>
+        <button class="glassButton" id="close">支払う</button>
+      </div>
+      <script id="">
+        let onmoney =　auto;
+        const torihiki = {
+          shuffle:function(array){
+              for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+              }
+              return array;
+            },
+          add:function(pass,syouhin){
+                  //　商人のビジュアル
+                  let img_element = document.createElement('img');
+                  img_element.src = 'data/public/img/murabito/'+pass+'.webp';
+                  img_element.alt = pass;
+                  img_element.width = 200;
+                  img_element.height = 200;
+                  let content_area = document.getElementById("syounin_img");
+                  content_area.appendChild(img_element);
+            //商品のビジュアル
+            let syouhin_elements = document.createElement('img');
+            syouhin_elements.src = 'data/public/img/murabito/'+syouhin+'.webp';
+            syouhin_elements.alt = pass;
+            syouhin_elements.width = 200;
+            syouhin_elements.height = 200;
+            let content_areas = document.getElementById("item_img");
+            content_areas.appendChild(syouhin_elements);
+          },
+          show:function(text){
+             document.getElementById('dialogText').innerText = text;
+            document.getElementById('dialog').style.display = 'block';
+          },
+          money:function(onmoney,inmoney){
+            if(onmoney > inmoney){
+                  console.log(`商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`)
+                  torihiki.show(`商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`)
+             if(onmoney < inmoney){
+                  console.log(`商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`)
+                  console.error(`商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`)
+                  torihiki.show(`商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nお金が足りません。`)
+             }
+               }
+          }
+        }
+        let trihiki_list = ["syounin","nouka","tyuuzouka","ryousi"]
+        let shuffle_score = torihiki.shuffle(trihiki_list);
+        let syounin = shuffle_score[0];
+        let item = [
+          "白金":150,
+          "鉄のインゴット":30.
+          "銅のインゴット":500,
+          "銀のインゴット":1500,
+          "金のインゴット":12000,
+          "白金のインゴット":300,
+          "トランジスタ":700,
+          "小麦の種":5,
+          "小麦":150,
+          "普通のパン":60,
+          "フランスパン":70,
+          "ベーグル":80,
+          "本棚":1200,
+          "コーヒーミル":700,
+          "コーヒー豆":100,
+          "ガラス":20,
+          "コップ":35,
+          "グラス":10,
+          "ひのきの机":280,
+          "ひのきの椅子":180,
+          "プラスチック":10,
+          "プラスチックのお椀":50,
+          "ひのきのお椀":70,
+          "鉄の歯車":50,
+          "ステンレス":70,
+          "ステンレスの歯車":90,
+          "鉄の掛け時計":900,
+          "鉄の置き時計":700,
+          "ステンレスの掛け時計":1200,
+          "ステンレスの置き時計":1000,
+          "ひのきの掛け時計":1500,
+          "ひのきの置き時計":1400,
+          "プラスチックの掛け時計":500,
+          "プラスチックの置き時計":200,
+          "ボールペン":10,
+          "シャープペンシル":20,
+          "にんじん":1,
+          "キャベツ":1,
+          "たまねぎ":1,
+          "コンソメ":100,
+          "磁石入の鉱石":200,
+          "磁石":200,
+          "砂鉄":10,
+          "フィラメント":8,
+          "フィラメント電球":30,
+          "フィラメント磁石":100,
+          "ネオジム磁石":400,
+          "包み紙":20,
+          "プリンター":800000,
+          "コンバイン":20000000,
+          "プレゼントの箱":600
+          "鉛筆:2B":2,
+          "鉛筆:3B":2,
+          "鉛筆:4B":2,
+          "瓶":4
+        ]
+        let random = Math.floor(Math.random() * keys.length);
+        let item_syouhin = keys[random];
+        let money = values[random];
+        torihiki.add(syounin,item_syouhin);
+        let inmoney = document.createElement('p');
+        var money_item = document.createElement("p");
+        money_item.innerHTML = inmoney;
+        document.body.appendChild(money_item);
+      </script>
+      <div id="syounin_img"></div>
+      <div id="item_img"></div>
+    </div>
+  </body>
+</html>
