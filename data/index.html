@@ -26,17 +26,6 @@
     <audio src="sound/文字もんバトル.mp3" id="battle" loop>
       <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
     </audio>
-    <div id="jouhou">
-      <a style="display:none" id="teki_H"></a>
-      <a style="display:none" id="teki_name"></a>
-      <a style="display:none" id="teki_A"></a>
-      <a style="display:none" id="teki_B"></a>
-      <a style="display:none" id="teki_S"></a>
-      <a style="display:none" id="jibun_H"></a>
-      <a style="display:none" id="jibun_name"></a>
-      <a style="display:none" id="jibun_A"></a>
-      <a style="display:none" id="jibun_B"></a>
-      <a style="display:none" id="jibun_S"></a>
 
     <div id="main">
       <!--敵-->
@@ -55,8 +44,21 @@
 
       <button onclick="open_attack()" id="attack_button">こうげき</button>
       <div id="attack">
-        <button class="white"id="taiatari"onclick="add_and_run(`waza.taiatari`)">たいあたり</button>
-        <button class="white"type="button" id="binta"  onclick="waza.binta(teki_result,jibun_result)">びんた</button>
+        <button
+          class="white"
+          id="taiatari"
+          onclick="add_and_run(`waza.taiatari`)"
+        >
+          たいあたり
+        </button>
+        <button
+          class="white"
+          type="button"
+          id="binta"
+          onclick="waza.binta(teki_result,jibun_result)"
+        >
+          びんた
+        </button>
         <br />
         <button class="waterB" type="button">
           　もじもんの特性を考えて攻撃すると経験値が上がります。
@@ -216,6 +218,12 @@
         alert("ログインしたら、\nゲームを始めることができます。");
         alert("それでは、楽しんでください。");
       }
+      function add_and_run(func) {
+        var result =
+          func +
+          `(teki_hp, teki_hp2, teki_atk, teki_def, jibun_hp, jibun_hp2, jibun_atk, jibun_def)`;
+        eval(result)();
+      }
       function open_attack() {
         //こうげきを開く
         document.getElementById("attack_button").style.display = "none";
@@ -247,10 +255,8 @@
           var hp = Math.floor(
             10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
           );
-          document.getElementById("teki_H").innerHTML = hp;
           document.getElementById("teki_hp").innerHTML = hp;
           document.getElementById("teki_hp_max").innerHTML = hp;
-          var atk = 
         } else {
           document.getElementById("jibun_mojimon").src =
             `img/mojimon/${check_result.name}.png`;
@@ -259,7 +265,6 @@
           var hp = Math.floor(
             10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
           );
-          document.getElementById("jibun_H").innerHTML = hp;
           document.getElementById("jibun_hp").innerHTML = hp;
           document.getElementById("jibun_hp_max").innerHTML = hp;
         }
