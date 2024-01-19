@@ -98,15 +98,15 @@ function service() {
 
   //404.500エラーに対応する
   app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/data/erorr/404.html");
+    res.status(404).sendFile(__dirname + "/data/404.html");
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).sendFile(__dirname + "/data/erorr/500.html");
+    res.status(500).sendFile(__dirname + "/data/500.html");
   });
 
   app.use((req, res, next) => {
-    res.status(409).sendFile(__dirname + "/data/erorr/409.html");
+    res.status(409).sendFile(__dirname + "/data/409.html");
   });
 
   //サーバーの起動
