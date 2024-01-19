@@ -64,6 +64,8 @@ function service() {
   app.use(express.static("data"));
 
   app.get("/", function (request, response) {
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    console.log("IP address you are accessing:" + ip);
     response.sendFile(__dirname + "/data/index.html"); //
   });
 
