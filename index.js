@@ -9,6 +9,24 @@ app.set("view engine", "ejs");
 const updata = require("./Updata");
 
 function service() {
+
+  app.use(express.json()); // for parsing application/json
+
+  app.post('/save', (req, res) => {
+      const data = req.body;
+      const filename = `/n/d/${req.body.user}.moji`;
+
+      fs.writeFile(filename, JSON.stringify(data), err => {
+          if (err) {
+              console.error(err);
+              res.status(500).send('Server Error');
+              return;
+          }
+
+          res.send(`${req.body.user}のデータを ${filename}　に保存しました。`);
+      });
+  });
+
   //ユーザーデータ処理
   app.use(bodyParser.json());
   app.use("/", updata);
