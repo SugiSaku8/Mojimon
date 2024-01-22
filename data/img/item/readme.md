@@ -1,0 +1,1 @@
+# The Mojimon Item Image
