@@ -7,9 +7,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>文字もん</title>
+    <title>もじもん</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <script src="https://apis.google.com/js/api.js"></script>
   </head>
 
   <body>
@@ -18,15 +17,14 @@
     </script>
     <script src="data.js"></script>
     <script src="setup.js"></script>
-    <script src="login.js"></script>
-    <script src="node_modules/bcryptjs/dist/bcrypt.min.js"></script>
     <audio src="sound/始まりの大陸bgm.mp3" autoplay id="hajimari" loop>
       <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
     </audio>
     <audio src="sound/文字もんバトル.mp3" id="battle" loop>
       <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
     </audio>
-    <div id="jouhou">
+    <audio src="sound/walk.mp3" id="walk"></audio>
+    <div id="jouhou"><!--情報をここから入手できるようにする予定-->
       <a style="display: none" id="teki_H"></a>
       <a style="display: none" id="teki_name"></a>
       <a style="display: none" id="teki_A"></a>
@@ -39,7 +37,7 @@
       <a style="display: none" id="jibun_S"></a>
     </div>
 
-      <div id="main">
+      <div id="main_battle">
         <!--敵-->
         <a id="teki_hp"></a>
         <a>/</a>
@@ -87,8 +85,9 @@
         <!-- (='X'=) -->
         <button onclick="open_items()" id="items_button">アイテム</button>
         <div id="items">
-          <button class="yellow" type="button">きずぐすり</button>
-          <button class="yellow" type="button">げんきのかけら</button>
+          <button class="yellow" type="button">エネルギービスケット</button>
+          <button class="yellow" type="button">エナジードリンク</button>
+          <button class="yellow" type="button">兵法書</button>
         </div>
         <br />
         <button onclick="modoru()" id="modoru_button" class="mini_button">
@@ -105,6 +104,7 @@
         <button id="start" onclick="setup()">スタート</button>
         <p></p>
         <button id="help" id="tutorial" onclick="tutorial()">ヘルプ</button>
+        <p>Mojimon V0.9b.1</p>
       </div>
       <div id="tokusyu">
         <div id="setup">
@@ -122,8 +122,8 @@
             <h6>
               すでに同じ名前のアカウントが存在するようです。<br />別の名前に変更してください。
             </h6>
-            名前　　　：<input type="text" name="name" /><br />
-            パスワード：<input type="password" name="password" /><br />
+            名前　　　：<input type="text" name="name" autocomplete="username"/><br />
+            パスワード：<input type="password" name="password"autocomplete="new-password" /><br />
             <input
               type="submit"
               onclick="document.getElementById('message').innerHTML = 'アカウントの登録に成功しました。'"
@@ -136,8 +136,8 @@
         <div id="account_login_form">
           <form id="searchForm">
             <h2>文字もんアカウントでログイン</h2>
-            名前　　　：<input type="text" id="searchName" /><br />
-            パスワード: <input type="password" id="searchPassword" /><br />
+            名前　　　：<input type="text" id="searchName" autocomplete="username"/><br />
+            パスワード: <input type="password" id="searchPassword"autocomplete="current-password" /><br />
             <input
               type="submit"
               class="green"
@@ -151,7 +151,7 @@
           <div class="popup glass rounded">
             <h2>もじもん</h2>
             <p>
-              Version:0.6.β <br />
+              Version:0.9.β <br />
               Wide View β
             </p>
             <button class="button" onclick="back();">ゲームに戻る</button>
@@ -209,8 +209,9 @@
         var Login;
         var teki_result = {};
         var jibun_result = {};
+        var timestamp = Date.now();
         function tutorial() {
-          alert("こんにちは！\n文字もんへようこそ！");
+          alert("こんにちは！\nもじもんへようこそ！");
           alert("ゲームの説明...ではなく\nスタート方法を教えます。");
           alert(
             "このゲームでは、データの保存\nなどのために、アカウントが必要です。",
@@ -277,6 +278,39 @@
             document.getElementById("jibun_hp").innerHTML = hp;
             document.getElementById("jibun_hp_max").innerHTML = hp;
           }
+        }
+        function save(){
+          let save_data={
+              version:"0.9.b",
+              user:Login,
+              exp:exp,
+              pl_nokori:pl_nokori,
+              tairiku:01,
+              xy:xy,
+              item:Getitem,
+              mojimon:Mojimon_list,
+              xp:xp,
+          }
+          let data = {
+              "user": Login,
+              "body": save_data,
+              "time": timestamp
+          };
+
+          fetch('http:/https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/n/d/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log('Success:', data);
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
         }
         function getData() {
           //いまは一年生の文字もんだけ
@@ -464,7 +498,27 @@
             jibun_result,
           };
         }
+        function Getstatus(){
+            let kakunin_fa = localStorage.getItem("status") // Use the correct key here
+            if(kakunin_fa != undefined){
+                var data = JSON.parse(kakunin_fa); // Parse the retrieved data
+                var currentTimestamp = Date.now();
+                var expiryTime = 744 * 60 * 60 * 1000;
+                if (data && currentTimestamp - data.timestamp <= expiryTime) {
+                    return true;
+                }
+                else {
+                    localStorage.removeItem("status"); // Remove the item with the correct key
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        let lstas = Getstatus();
         function setup() {
+    if(lstas === false){
           getData();
           document.getElementById("battle").pause();
           document.getElementById("hajimari").play();
@@ -472,6 +526,20 @@
           document.getElementById("setup").style.display = "block";
           document.all.account_touroku_form.style.display = "none";
           document.all.account_login_form.style.display = "none";
+    }else{
+    console.log("Aholgが実行されました。")
+      Login = name;
+      login_status = true;
+       document.getElementById("start_window").style.display = "none";
+      document.getElementById("result").innerText =
+        "ログインに成功しました。";
+      document.getElementById("map").style.display = "block";
+      document.getElementById("account_login_form").style.display =
+        "none";
+      document.getElementById("battle").pause();
+      document.getElementById("hajimari").play();
+      getData();
+    }
         }
         function account_touroku() {
           document.all.setup.style.display = "none";
@@ -499,12 +567,13 @@
               login_status = true;
               document.getElementById("result").innerText =
                 "ログインに成功しました。";
-              document.getElementById("main").style.display = "block";
+              document.getElementById("map").style.display = "block";
               document.getElementById("account_login_form").style.display =
                 "none";
               document.getElementById("battle").play();
               document.getElementById("hajimari").pause();
               getData();
+              localStorage.setItem("status", JSON.stringify({ value: true, timestamp: timestamp }));
             } else {
               throw new Error("パスワードが違います。");
             }
@@ -578,10 +647,126 @@
           }
         });
       </script>
+      <div id="map">
+        <div class="info" id="readme" style="display:none;">
+            <h2 class="info-title"><span id="info_title"></span></h2>
+            <div class="info-body"id="info_body">
+            </div>
+        </div>
 
+        <div id="CofB">
+          <img id="SKIN" src="skin.webp" />
+          <map name="image-map">
+            <img style="width:5120px; height:3840px" src="./map/CofB.png" usemap="#ImageMap" alt="" />
+            <map name="ImageMap">
+              <area shape="rect" onclick="open_trihiki();"class="tri"coords="1330, 1546, 2522, 2442" alt="" />
+              <area shape="rect" onclick="open_trihiki();"class="tri"coords="2694, 1554, 4108, 2506" alt="" />
+              <area shape="rect" onclick="open_trihiki();"class="tri"coords="2156, 654, 3500, 1290"alt="" />
+              <!--まだ追加しない予定のバトル
+              <area shape="circle"onclick="open_battle();" class="moji"coords="434,514,304" alt="" />
+              <area shape="circle"onclick="open_battle();" class="moji"coords="492,1486,252"  alt="" />
+              <area shape="circle"onclick="open_battle();" class="moji"coords="347,1037,217"  alt="" />
+              <area shape="circle"onclick="open_battle();"class="moji" coords="880,1272,1"  alt="" />
+              <area shape="circle"onclick="open_battle();" class="moji"coords="1195,1615,393" alt="" />
+              <area shape="circle"onclick="open_battle();"class="moji" coords="1937,1673,342"  alt="" />
+              <area shape="circle"onclick="open_battle();"class="moji"coords="2165,434,313"  alt="" />
+              <area shape="circle"onclick="open_battle();" class="moji"coords="2313,1005,204" alt="" />
+              -->
+            </map>
+          </map>
+          <h4 id="kaiwa" style="background-color:black; opacity:0.5;　position: absolute;top: 左上から設置したい場所への高さのピクセル数;right: 左上から設置したい場所への右方向のピクセル数;">あいうえお</h4>
+        <!----かいわってなに？----->
+          <script>
+            var icon = document.getElementById('SKIN');
+            var speed = 64;
+            var x = icon.offsetLeft;
+            var y = icon.offsetTop;
+
+            document.addEventListener('keydown', function(e) {
+                switch (e.key) {
+                    case 'w': // Move up
+                        y -= speed;
+                        document.getElementById("walk").play();
+                        break;
+                    case 's': // Move down
+                        y += speed;
+                        document.getElementById("walk").play();
+                        break;
+                    case 'a': // Move left
+                        x -= speed;
+                        document.getElementById("walk").play();
+                        break;
+                    
+                    case 'd': // Move right
+                        document.getElementById("walk").play();
+                        x += speed;
+                        break;
+                }
+                icon.style.left = x + 'px';
+                icon.style.top = y + 'px';
+            });
+            
+            function fadeIn(element) {
+                var op = 0.1; // initial opacity
+                element.style.display = 'block';
+                var timer = setInterval(function () {
+                    if (op >= 1){
+                        clearInterval(timer);
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op += op * 0.1;
+                }, 50);
+            }
+
+            function fadeOut(element) {
+                var op = 1; // initial opacity
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 10);
+            }
+
+            const map = {
+                view: function(){
+                    console.log("map = view ");
+                    var element = document.getElementById("map");
+                    fadeIn(element);
+                },
+                hide: function(){
+                    console.log("map = hide");
+                    var element = document.getElementById("map");
+                    fadeOut(element);
+                }
+            }
+
+            function open_battle(){
+                var mapElement = document.getElementById("map");
+                fadeOut(mapElement);
+                var battleElement = document.getElementById("main_battle");
+                fadeIn(battleElement);
+            }
+
+            function open_trihiki(){
+                var mapElement = document.getElementById("map");
+                fadeOut(mapElement);
+                alert("取引を開始します。")
+                var trihikiElement = document.getElementById("trihiki");
+                fadeIn(trihikiElement);
+                torihiki_start();
+            }
+              console.log("info: Setup of the map is complete.");
+          </script>
+        </div>
+      </div>
       <div id="trihiki">
-        <div id="dialog" class="glass" style="display: none">
-          <p id="dialogText" style="display:none"></p><!--仮-->
+        <div id="dialog" class="glass" style="display: none;">
+          <p id="dialogText" style="display:none;"></p><!--仮-->
           <button class="glassButton" id="close">閉じる</button>
           <button class="glassButton" id="close">支払う</button>
         </div>
@@ -598,7 +783,7 @@
             add: function (pass, syouhin) {
               //　商人のビジュアル
               let img_element = document.createElement("img");
-              img_element.src = "data/public/img/murabito/" + pass + ".webp";
+              img_element.src = "./img/murabito/" + pass + ".png";
               img_element.alt = pass;
               img_element.width = 200;
               img_element.height = 200;
@@ -607,8 +792,8 @@
               //商品のビジュアル
               let syouhin_elements = document.createElement("img");
               syouhin_elements.src =
-                "data/public/img/murabito/" + syouhin + ".webp";
-              syouhin_elements.alt = pass;
+                "./img/item/" + syouhin + ".png";
+              syouhin_elements.alt = syouhin;
               syouhin_elements.width = 200;
               syouhin_elements.height = 200;
               let content_areas = document.getElementById("item_img");
@@ -645,19 +830,18 @@
           let shuffle_score = torihiki.shuffle(trihiki_list);
           let syounin = shuffle_score[0];
           let item = {
-            白金: 150,
-            鉄のインゴット: 30,
-            銅のインゴット: 500,
-            銀のインゴット: 1500,
-            金のインゴット: 12000,
-            白金のインゴット: 300,
-            トランジスタ: 700,
-            小麦の種: 5,
-            小麦: 150,
-            普通のパン: 60,
-            フランスパン: 70,
-            ベーグル: 80,
-            本棚: 1200,
+            鉄のインゴット: 30,//済
+            銅のインゴット: 500,//済
+            銀のインゴット: 1500,//済
+            金のインゴット: 12000,//済
+            白金のインゴット: 300,//済
+            トランジスタ: 700,//済
+            小麦の種: 5,//済
+            小麦: 150,//済
+            普通のパン: 60,//済
+            フランスパン: 70,//済
+            ベーグル: 80,//済
+            本棚: 1200,//済
             コーヒーミル: 700,
             コーヒー豆: 100,
             ガラス: 20,
@@ -681,7 +865,7 @@
             プラスチックの置き時計: 200,
             ボールペン: 10,
             シャープペンシル: 20,
-            にんじん: 1,
+            にんじん: 1,//済
             キャベツ: 1,
             たまねぎ: 1,
             コンソメ: 100,
@@ -695,20 +879,21 @@
             包み紙: 20,
             プリンター: 800000,
             コンバイン: 20000000,
-            プレゼントの箱: 600,
-            "鉛筆:2B": 2,
-            "鉛筆:3B": 2,
-            "鉛筆:4B": 2,
-              瓶: 4
+            プレゼントの箱: 600,//済
+            "鉛筆(2B)": 2,//済
+            "鉛筆(3B)": 2,//済
+            "鉛筆(4B)": 2,//済
+              瓶: 4//済
           };
           let keys = Object.keys(item);
           let values = Object.values(item);
-
           let random = Math.floor(Math.random() * keys.length);
           let item_syouhin = keys[random];
+          torihiki.add(syounin,item_syouhin);
           let money = values[random];
-          let inmoney = document.createElement("p");
-          var money_item = document.createElement("p");
+          //仮
+          let inmoney = 99999999999;
+          var money_item = 9999999999;
           money_item.innerHTML = inmoney;
           document.body.appendChild(money_item);
           }
