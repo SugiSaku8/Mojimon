@@ -17,7 +17,7 @@ function service() {
   app.use(express.json());
   app.post('/save', (req, res) => {
       let datas = req.body;
-      console.log(datas);
+      console.log(req);
       const filename = `./n/d/${req.body.user}.moji`;
       fs.writeFile(filename, JSON.stringify(datas), err => {
           if (err) {
