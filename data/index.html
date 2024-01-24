@@ -1,6 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
+    <script src="talk.js"></script>
+    <script src="nofi.js"></script>
     <link rel="icon" href="img/icon.webp" sizes="any" />
     <meta charset="utf-8" />
     <meta
@@ -31,11 +33,12 @@
       <a style="display: none" id="teki_B"></a>
       <a style="display: none" id="teki_S"></a>
       <a style="display: none" id="jibun_H"></a>
-      <a style="display: none" id="jibun_name"></a>
+      <a style="　display: none" id="jibun_name"></a>
       <a style="display: none" id="jibun_A"></a>
       <a style="display: none" id="jibun_B"></a>
       <a style="display: none" id="jibun_S"></a>
     </div>
+    
 
       <div id="main_battle">
         <!--敵-->
@@ -43,10 +46,10 @@
         <a>/</a>
         <a id="teki_hp_max"></a>
         <br />
-        <img id="teki_mojimon" src="" />
+        <img id="teki_mojimon" src=""/>
         <br /><br /><br />
         <!--自分-->
-        <img id="jibun_mojimon" src="" />
+        <img id="jibun_mojimon" src=""/>
         <br />
         <a id="jibun_hp"></a>
         <a>/</a>
@@ -107,7 +110,7 @@
         <p>Mojimon V0.9b.1</p>
       </div>
       <div id="tokusyu">
-        <div id="setup">
+        <div id="setup" class="setup">
           <button onclick="tutorial()">ヘルプ</button>
           <h2>アカウント</h2>
           <h4>初めて遊ぶ人→アカウント登録</h4>
@@ -149,16 +152,16 @@
         </div>
         <div class="modal" id="modal">
           <div class="popup glass rounded">
-            <h2>もじもん</h2>
-            <p>
-              Version:0.9.β <br />
-              Wide View β
+            <h2 style="font-family:'MP','cf';">もじもん</h2>
+            <p style="font-family:'MP','cf';">
+              Version:0.9.β<br />
+              ©2023-24
             </p>
             <button class="button" onclick="back();">ゲームに戻る</button>
             <br />
             <button class="button" onclick="">設定</button>
             <br />
-            <button class="button" onclick="back();">保存して終了</button>
+            <button class="button" onclick="save();back();">保存して終了</button>
           </div>
         </div>
         <div class="modal" id="account">
@@ -168,10 +171,10 @@
           >
             <a>アカウント名:<span id="name"></span></a><br /><br />
             <a
-              >残りの<span style="font-weight: 400">⅊</span>:<span
+              >残りの<span style="font-weight: 400;font-family:'mojimon','cf';"></span>:<span
                 id="pl_nokori"
               ></span
-              ><span style="font-weight: 400">⅊</span></a
+              ><span style="font-weight: 400;font-family:'mojimon','cf';"></span></a
             ><br /><br />
             <a>経験値:<span id="exp"></span></a><br /><br />
             <a>もじもんの一覧:<button id="mojimon_list">開く</button></a>
@@ -190,12 +193,14 @@
                 document.getElementById("pl_nokori").innerText = pl_nokori;
                 document.getElementById("exp").innerText = exp;
               }
-              setInterval(updata_info, 1000);
+              setInterval(updata_info, 1000); 
+              
             </script>
           </div>
         </div>
       </div>
       <script>
+        let url = "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/"
         var change;
         var teki_hp;
         var teki_hp2;
@@ -209,6 +214,7 @@
         var Login;
         var teki_result = {};
         var jibun_result = {};
+        let save_cycle = 30000
         var timestamp = Date.now();
         function tutorial() {
           alert("こんにちは！\nもじもんへようこそ！");
@@ -231,6 +237,57 @@
           alert("ログインしたら、\nゲームを始めることができます。");
           alert("それでは、楽しんでください。");
         }
+        
+        // モンスターのリスト
+        
+
+        function spawn_mojimon() {
+         for(let i = 1; i < 11; i++) { 
+           let mapWidth = 5120; // マップの幅
+           let mapHeight = 3840; // マップの高さ
+           mojimon_shuffle()
+
+            let monster = mojimon_shuffle()
+            let monster_0 = monster[0]
+
+            let x = Math.floor(Math.random() * mapWidth); // ランダムなX座標を生成
+            let y = Math.floor(Math.random() * mapHeight); // ランダムなY座標を生成
+
+            spawnMonsterAtPosition(monster_0, x, y, i); // モンスターをスポーンさせる関数を呼び出す
+         }
+        }
+        window.addEventListener('resize', adjustMojimonPosition);
+        window.addEventListener('load', adjustMojimonPosition);
+
+        function spawnMonsterAtPosition(monster, x, y, i) {
+         // ここもじもんをスポーンさせる処理を書く by AI
+         // 例えば、HTML要素を作成してマップ上のランダムな位置に配置するなど
+          
+          var item = document.getElementById(`mojimon_spawn${i}`)
+          item.src = `img/mojimon/${monster}.png`;
+
+          console.log([x + 'px',y + 'px'])
+
+          item.style.left = x + 'px';
+          item.style.top = y + 'px';
+        }
+        function adjustMojimonPosition() {
+          for (var i = 1; i < 11; i++) {
+         var item = document.getElementById(`mojimon_spawn${i}`)
+
+
+          var container = document.getElementById('CofB');
+          var containerRect = container.getBoundingClientRect();
+          var itemRect = item.getBoundingClientRect();
+
+          newX = Math.floor((containerRect.width / 2) - (itemRect.width / 2));
+          newY = Math.floor((containerRect.height / 2) - (itemRect.height / 2));
+
+          item.style.left = newX + 'px';
+          item.style.top = newY + 'px';
+          }
+        }
+
         function open_attack() {
           //こうげきを開く
           document.getElementById("attack_button").style.display = "none";
@@ -279,124 +336,80 @@
             document.getElementById("jibun_hp_max").innerHTML = hp;
           }
         }
+        (() => {
+            'use strict';
+            let isSubmit = false;
+            let userGestureExists = false;
+            for (const v of ['click', 'keydown']) {
+                addEventListener(v, () => { userGestureExists = true; }, { once: true });
+            }
+            addEventListener('beforeunload', e => {
+                if (!isSubmit && userGestureExists) {
+                    e.preventDefault();
+                  save();
+                    e.returnValue = 'Are you sure you want to exit?';
+                }
+            });
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementsByTagName('button')[0].addEventListener('click', () => { isSubmit = true; });
+            });
+        })();
         function save(){
+          let savedata={
+              version:"0.9.b",
+              user:Login,
+              exp:exp,
+              pl_nokori:pl_nokori,
+              tairiku:01,
+              x:x,
+            y:y,
+              //item:Getitem,
+             // mojimon:Mojimon_list,
+              //xp:xp,
+          }
+          let data = {
+              "user": Login,
+              "body": savedata,
+              "time": timestamp
+          };
+      console.log(data)
+           const savewdata = JSON.stringify(data);
+          fetch(url+'save', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(savedata),
+          })
+          .then((response) => response.json())
+          .then((savewdata) => {
+              console.log('Success:', savewdata);
+          })
+          .catch((error) => {
+              //console.error("クライアントエラー:"+error);
+          });
+        }
+        //保存関数はこれ
+        function save_local(){
           let save_data={
               version:"0.9.b",
               user:Login,
               exp:exp,
               pl_nokori:pl_nokori,
               tairiku:01,
-              xy:xy,
-              item:Getitem,
-              mojimon:Mojimon_list,
-              xp:xp,
+              //xy:xy,
+              //item:Getitem,
+              //mojimon:Mojimon_list,
+              //xp:xp,
           }
           let data = {
               "user": Login,
               "body": save_data,
               "time": timestamp
           };
-
-          fetch('https://mojimon.onrender.com/n/d/', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-          })
-          .then((response) => response.json())
-          .then((data) => {
-              console.log('Success:', data);
-          })
-          .catch((error) => {
-              console.error('Error:', error);
-          });
+          localStorage.setItem("data", data);
         }
-        function getData() {
-          //いまは一年生の文字もんだけ
-          mojimon_array = [
-            "火",
-            "山",
-            "水",
-            "石",
-            "金",
-            "土",
-            "月",
-            "日",
-            "木",
-            "雨",
-            "川",
-            "夕",
-            "花",
-            "草",
-            "右",
-            "左",
-            "一",
-            "二",
-            "三",
-            "四",
-            "五",
-            "六",
-            "七",
-            "八",
-            "九",
-            "十",
-            "上",
-            "下",
-            "円",
-            "王",
-            "音",
-            "貝",
-            "学",
-            "気",
-            "休",
-            "玉",
-            "空",
-            "犬",
-            "見",
-            "竹",
-            "田",
-            "口",
-            "白",
-            "青",
-            "赤",
-            "林",
-            "森",
-            "校",
-            "千",
-            "百",
-            "力",
-            "文",
-            "立",
-            "目",
-            "名",
-            "本",
-            "年",
-            "入",
-            "天",
-            "町",
-            "虫",
-            "中",
-            "男",
-            "女",
-            "大",
-            "小",
-            "糸",
-            "子",
-            "字",
-            "耳",
-            "車",
-            "手",
-            "出",
-            "人",
-            "正",
-            "生",
-            "先",
-            "早",
-            "足",
-            "村",
-          ];
-
+        function mojimon_shuffle(){
           for (i = mojimon_array.length; 1 < i; i--) {
             k = Math.floor(Math.random() * i);
             [mojimon_array[k], mojimon_array[i - 1]] = [
@@ -404,18 +417,101 @@
               mojimon_array[k],
             ];
           }
+          return mojimon_array
+        }
+        mojimon_array = [
+          "火",
+          "山",
+          "水",
+          "石",
+          "金",
+          "土",
+          "月",
+          "日",
+          "木",
+          "雨",
+          "川",
+          "夕",
+          "花",
+          "草",
+          "右",
+          "左",
+          "一",
+          "二",
+          "三",
+          "四",
+          "五",
+          "六",
+          "七",
+          "八",
+          "九",
+          "十",
+          "上",
+          "下",
+          "円",
+          "王",
+          "音",
+          "貝",
+          "学",
+          "気",
+          "休",
+          "玉",
+          "空",
+          "犬",
+          "見",
+          "竹",
+          "田",
+          "口",
+          "白",
+          "青",
+          "赤",
+          "林",
+          "森",
+          "校",
+          "千",
+          "百",
+          "力",
+          "文",
+          "立",
+          "目",
+          "名",
+          "本",
+          "年",
+          "入",
+          "天",
+          "町",
+          "虫",
+          "中",
+          "男",
+          "女",
+          "大",
+          "小",
+          "糸",
+          "子",
+          "字",
+          "耳",
+          "車",
+          "手",
+          "出",
+          "人",
+          "正",
+          "生",
+          "先",
+          "早",
+          "足",
+          "村",
+        ];
+        function getData() {
+          //いまは一年生の文字もんだけ
+          
+
+          mojimon_shuffle()  
 
           jibun_mojimon = mojimon_array[0];
           jibun_result = check(jibun_mojimon);
           data_send(jibun_result, false);
 
-          for (i = mojimon_array.length; 1 < i; i--) {
-            k = Math.floor(Math.random() * i);
-            [mojimon_array[k], mojimon_array[i - 1]] = [
-              mojimon_array[i - 1],
-              mojimon_array[k],
-            ];
-          }
+          mojimon_shuffle()
 
           teki_mojimon = mojimon_array[0];
           teki_result = check(teki_mojimon);
@@ -435,8 +531,7 @@
             var teki_hp = teki_hp2;
             var teki_NB = teki_result.kakusuu - teki_result.busyu;
             var teki_atk = Math.floor(
-              20 +
-                Math.log(Math.log(4 ** ((teki_NB + 1) ** 2))) * 5 +
+              20 +Math.log(Math.log(4 ** ((teki_NB + 1) ** 2))) * 5 +
                 Math.log(3 ** teki_lv),
             );
             var teki_NBS = teki_NB - teki_result.busyu;
@@ -505,7 +600,8 @@
                 var currentTimestamp = Date.now();
                 var expiryTime = 744 * 60 * 60 * 1000;
                 if (data && currentTimestamp - data.timestamp <= expiryTime) {
-                    return true;
+                  let Login = localStorage.getItem("user");
+                  return true;
                 }
                 else {
                     localStorage.removeItem("status"); // Remove the item with the correct key
@@ -515,10 +611,10 @@
                 return false;
             }
         }
-
         let lstas = Getstatus();
         function setup() {
     if(lstas === false){
+      //通常ログイン（Ahlog無効)
           getData();
           document.getElementById("battle").pause();
           document.getElementById("hajimari").play();
@@ -526,8 +622,9 @@
           document.getElementById("setup").style.display = "block";
           document.all.account_touroku_form.style.display = "none";
           document.all.account_login_form.style.display = "none";
+      
     }else{
-    console.log("Aholgが実行されました。")
+    console.log("Ahlgが実行されました。")
       Login = name;
       login_status = true;
        document.getElementById("start_window").style.display = "none";
@@ -536,11 +633,30 @@
       document.getElementById("map").style.display = "block";
       document.getElementById("account_login_form").style.display =
         "none";
+      spawn_mojimon()
       document.getElementById("battle").pause();
       document.getElementById("hajimari").play();
       getData();
+      Login = localStorage.getItem("user");
     }
         }
+        async function GetsaveData(Name){
+           let savedatae = await fetch("/save_get/"+Name+".moji");
+           let GetSaveData  = await savedatae.json();
+          console.log(GetSaveData);
+          try{
+          exp = GetSaveData.data.exp
+          pl_nokori = GetSaveData.data.pl_nokori
+          tairiku = GetSaveData.data.tairiku
+          x = GetSaveData.data.x
+          y = GetSaveData.data.y
+            console.info("データを同期しました。")
+          }catch (error){
+            console.error("データの同期中にエラーが発生しました。\n"+error)
+          }
+        }
+
+        getData();
         function account_touroku() {
           document.all.setup.style.display = "none";
           document.all.account_touroku_form.style.display = "block";
@@ -574,6 +690,8 @@
               document.getElementById("hajimari").pause();
               getData();
               localStorage.setItem("status", JSON.stringify({ value: true, timestamp: timestamp }));
+              localStorage.setItem("user", Login);
+              spawn_mojimon()
             } else {
               throw new Error("パスワードが違います。");
             }
@@ -603,7 +721,7 @@
           console.log("load：リソースファイルを全て読み込みました。");
           document.getElementById("hajimari").play();
         });
-        
+        setInterval(save_local,save_cycle)
       </script>
       <video roop autoplay src="img/splash.mp4" id="splashScreen"></video>
       <script>
@@ -655,7 +773,42 @@
         </div>
 
         <div id="CofB">
-          <img id="SKIN" src="skin.webp" />
+          <!----きもちわるい(?)---->
+          <div id="mojimon_spawn">
+            <div id="mojimonContainer1"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn1"class="ms"></div>
+            <div id="mojimonContainer2"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn2"class="ms"></div>
+            <div id="mojimonContainer3"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn3"class="ms"></div>
+            <div id="mojimonContainer4"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn4"class="ms"></div>
+            <div id="mojimonContainer5"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn5"class="ms"></div>
+            <div id="mojimonContainer6"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn6"class="ms"></div>
+            <div id="mojimonContainer7"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn7"class="ms"></div>
+            <div id="mojimonContainer8"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn8"class="ms"></div>
+            <div id="mojimonContainer9"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn9"class="ms"></div>
+            <div id="mojimonContainer10"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn10"class="ms"></div>
+          </div>
+          <div id="skinContainer">
+              <img id="SKIN" src="skin.webp" style="width:64px; height:64px" />
+          </div>
+          <script>
+            var newX;
+            var newY;
+            window.addEventListener('resize', adjustSkinPosition);
+            window.addEventListener('load', adjustSkinPosition);
+            function adjustSkinPosition() {
+                var skin = document.getElementById('SKIN');
+                var container = document.getElementById('CofB');
+
+                var containerRect = container.getBoundingClientRect();
+                var skinRect = skin.getBoundingClientRect();
+
+                newX = Math.floor((containerRect.width / 2) - (skinRect.width / 2));
+                newY = Math.floor((containerRect.height / 2) - (skinRect.height / 2));
+
+                skin.style.left = newX + 'px';
+                skin.style.top = newY + 'px';
+            }
+
+          </script>
           <map name="image-map">
             <img style="width:5120px; height:3840px" src="./map/CofB.png" usemap="#ImageMap" alt="" />
             <map name="ImageMap">
@@ -674,38 +827,41 @@
               -->
             </map>
           </map>
-          <h4 id="kaiwa" style="background-color:black; opacity:0.5;　position: absolute;top: 左上から設置したい場所への高さのピクセル数;right: 左上から設置したい場所への右方向のピクセル数;">あいうえお</h4>
-        <!----かいわってなに？----->
           <script>
             var icon = document.getElementById('SKIN');
             var speed = 64;
             var x = icon.offsetLeft;
             var y = icon.offsetTop;
 
+            var keysPressed = {};
+
             document.addEventListener('keydown', function(e) {
-                switch (e.key) {
-                    case 'w': // Move up
-                        y -= speed;
-                        document.getElementById("walk").play();
-                        break;
-                    case 's': // Move down
-                        y += speed;
-                        document.getElementById("walk").play();
-                        break;
-                    case 'a': // Move left
-                        x -= speed;
-                        document.getElementById("walk").play();
-                        break;
-                    
-                    case 'd': // Move right
-                        document.getElementById("walk").play();
-                        x += speed;
-                        break;
+                keysPressed[e.key] = true;
+                if (keysPressed['w']) { // Move up
+                    y -= speed;
+                    document.getElementById("walk").play();
                 }
+                if (keysPressed['s']) { // Move down
+                    y += speed;
+                    document.getElementById("walk").play();
+                }
+                if (keysPressed['a']) { // Move left
+                    x -= speed;
+                    document.getElementById("walk").play();
+                }
+                if (keysPressed['d']) { // Move right
+                    x += speed;
+                    document.getElementById("walk").play();
+                }
+
                 icon.style.left = x + 'px';
                 icon.style.top = y + 'px';
             });
-            
+
+            document.addEventListener('keyup', function(e) {
+                delete keysPressed[e.key];
+            });
+
             function fadeIn(element) {
                 var op = 0.1; // initial opacity
                 element.style.display = 'block';
@@ -761,14 +917,19 @@
                 torihiki_start();
             }
               console.log("info: Setup of the map is complete.");
+            let on_ima = 0;
+            let in_ima = 0;
           </script>
         </div>
+        <div id="dialogueOverlay">
+          <div id="dialogueMessage"></div>
+        </div>
       </div>
-      <div id="trihiki">
-        <div id="dialog" class="glass" style="display: none;">
-          <p id="dialogText" style="display:none;"></p><!--仮-->
+      <div id="trihiki" style="font-family:'mojimon','cf';">
+        <div id="dialog" class="glass" style="display:none;font-family:'mojimon','cf';">
+          <p id="dialogText" style="font-family:'mojimon','cf';"></p><!--仮-->
           <button class="glassButton" id="close">閉じる</button>
-          <button class="glassButton" id="close">支払う</button>
+          <button class="glassButton" id="close" onclick="torihiki.money(on_ima,in_ima)">支払う</button>
         </div>
         <script id="">
           let onmoney = auto;
@@ -826,6 +987,8 @@
             },
           };
           function torihiki_start(){
+          
+            
           let trihiki_list = ["syounin", "nouka", "tyuuzouka", "ryousi"];
           let shuffle_score = torihiki.shuffle(trihiki_list);
           let syounin = shuffle_score[0];
@@ -893,9 +1056,13 @@
           let money = values[random];
           //仮
           let inmoney = 99999999999;
-          var money_item = 9999999999;
-          money_item.innerHTML = inmoney;
-          document.body.appendChild(money_item);
+          let money_item = 9999999999;
+          let kingaku = document.createElement('p');
+            onmoney=inmoney;
+            inmoney=money_item;
+            torihiki.show(`${item_syouhin}を購入しますか？\n${money}です`);
+          kingaku.innerHTML = `金額:${money}`;
+          document.body.appendChild(kingaku);
           }
         </script>
         <div id="syounin_img"></div>
