@@ -97,7 +97,7 @@ function service() {
   app.get("/get", function (request, response) {
     const name = request.query.name;
     const password = request.query.password;
-    fs.readFile("./偽物data.json", (err, data) => {
+    fs.readFile("./data.json", (err, data) => {
       if (err) throw err;
       if (data.length > 0) {
         let jsonData = JSON.parse(data);
