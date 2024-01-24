@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const path = require('path');
 const session = require("express-session");
 const flash = require("connect-flash");
 let bcrypt = require("bcrypt");
@@ -10,20 +11,28 @@ const updata = require("./Updata");
 
 function service() {
 
-  app.use(express.json()); // for parsing application/json
+  app.use('/save_get', express.static(path.join(__dirname, './n/d/')));
 
+  
+  app.use(express.json());
   app.post('/save', (req, res) => {
-      const data = req.body;
-      const filename = `/n/d/${req.body.user}.moji`;
-
-      fs.writeFile(filename, JSON.stringify(data), err => {
+      let datas = req.body;
+      console.log(datas);
+      const filename = `./n/d/${req.body.user}.moji`;
+      fs.writeFile(filename, JSON.stringify(datas), err => {
           if (err) {
               console.error(err);
-              res.status(500).send('Server Error');
+              res.status(500).send('サーバエラー');
               return;
           }
+        let time = Date.now()
 
-          res.send(`${req.body.user}のデータを ${filename}　に保存しました。`);
+        let status = {
+          'status':'成功',
+          'message':`${req.body.user}のデータを ${filename}　に保存しました。`,
+          'time':time,
+        }
+          res.send();
       });
   });
 
@@ -77,24 +86,24 @@ function service() {
 
   app.use(bodyParser.json());
 
-  app.use(express.static("data"));
+  app.use(express.static("data/public"));
 
-  app.use(express.static("data"));
+  app.use(express.static("data/public"));
 
   app.get("/", function (request, response) {
-    response.sendFile(__dirname + "/data/index.html"); //
+    response.sendFile(__dirname + "/views/index.html"); //
   });
 
   app.get("/get", function (request, response) {
     const name = request.query.name;
     const password = request.query.password;
-    fs.readFile("./data.json", (err, data) => {
+    fs.readFile("./偽物data.json", (err, data) => {
       if (err) throw err;
       if (data.length > 0) {
         let jsonData = JSON.parse(data);
         let targetData = jsonData.find((item) => item.name === name);
         if (targetData) {
-          var isMatch = bcrypt.compareSync(password, targetData.password);
+          var isMatch = bcrypt.compareSync(password, targetData.password);//
           response.send({ targetData, isMatch });
         } else {
           response
@@ -111,20 +120,20 @@ function service() {
 
   app.post("/", function (request, response) {
     console.log(request.body);
-    updateOrAppendToFile(request.body, "./data.json", request, response);
+    updateOrAppendToFile(request.body, "./偽物data.json", request, response);
   });
 
   //404.500エラーに対応する
   app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/data/404.html");
+    res.status(404).sendFile(__dirname + "/views/erorr/404.html");
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).sendFile(__dirname + "/data/500.html");
+    res.status(500).sendFile(__dirname + "/views/erorr/500.html");
   });
 
   app.use((req, res, next) => {
-    res.status(409).sendFile(__dirname + "/data/409.html");
+    res.status(409).sendFile(__dirname + "/views/erorr/409.html");
   });
 
   //サーバーの起動

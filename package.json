@@ -36,6 +36,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.throttle": "^4.1.1",
     "lodash.uniq": "^4.5.0",
+    "message-view-js": "^1.0.2",
     "node-fetch": "^3.2.6",
     "rambda": "^8.6.0",
     "set-value": "^4.1.0"
