@@ -1,4 +1,4 @@
-/*円　王　音　貝　学　気　休　玉　空　犬　見　竹　田　口　白　青　赤　林　森　校　　力　文　立　目　名　本　年　入　天　町　虫　中　男　女　大　小　糸　子　字　耳　車　手　出　人　正　生　先　早　足　村*/
+
 //判定は漢字ペディアを使うこと！
 function check(mojimon) {
   switch(mojimon) {
@@ -496,8 +496,5 @@ function check(mojimon) {
         kakusuu:7,
         busyu:4
       }
-
-
-      /**/
   } 
 }
