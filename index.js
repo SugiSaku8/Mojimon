@@ -164,7 +164,6 @@ server.listen(3000, function () {
     console.log("|         ©Carnation Mojimon 2023-24");
     console.log("|         このサーバーは、Mojimonのサーバーです。");
     console.log("|                                               ");
-  });
 }
 
 service();
