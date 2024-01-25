@@ -8,13 +8,6 @@ const flash = require("connect-flash");
 let bcrypt = require("bcrypt");
 app.set("view engine", "ejs");
 const updata = require("./Updata");
-const https = require('https');
-const key = fs.readFileSync(__dirname + '/cert/mojimon.key');
-const cert = fs.readFileSync(__dirname + '/cert/mojimon.crt');
-const options = {
- key: key,
- cert: cert
-};
 
 function service() {
 
@@ -143,17 +136,13 @@ function service() {
     res.status(409).sendFile(__dirname + "/data/erorr/409.html");
   });
 
-   const server = https.createServer(options, app);
-
-server.listen(3000, function () {
+  //サーバーの起動
+  var listener = app.listen(3000, function () {
     console.log(
       "もじもんのサーバーは、" +
-       3000 +
+        listener.address().port +
         "で動いています!!!!!",
     );
-});
-
-   
     console.log("____________________________________________________");
     console.log("|              Mojimon Developer Console");
     console.log("|                     起動しました。");
@@ -163,6 +152,7 @@ server.listen(3000, function () {
     console.log("|         ©Carnation Mojimon 2023-24");
     console.log("|         このサーバーは、Mojimonのサーバーです。");
     console.log("|                                               ");
+  });
 }
 
 service();
