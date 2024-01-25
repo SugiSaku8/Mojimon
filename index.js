@@ -149,7 +149,7 @@ function service() {
 server.listen(3000, function () {
     console.log(
       "もじもんのサーバーは、" +
-        server.address().port +
+       3000 +
         "で動いています!!!!!",
     );
 });
