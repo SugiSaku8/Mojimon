@@ -8,7 +8,6 @@ const flash = require("connect-flash");
 let bcrypt = require("bcrypt");
 app.set("view engine", "ejs");
 const updata = require("./Updata");
-
 const https = require('https');
 const key = fs.readFileSync(__dirname + '/cert/mojimon.key');
 const cert = fs.readFileSync(__dirname + '/cert/mojimon.crt');
