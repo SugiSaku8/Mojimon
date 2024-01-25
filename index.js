@@ -146,12 +146,14 @@ function service() {
 
    const server = https.createServer(options, app);
 
- server.listen(3000, function () {
+server.listen(3000, function () {
     console.log(
       "もじもんのサーバーは、" +
-        listener.address().port +
+        server.address().port +
         "で動いています!!!!!",
     );
+});
+
    
     console.log("____________________________________________________");
     console.log("|              Mojimon Developer Console");
