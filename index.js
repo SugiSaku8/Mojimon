@@ -9,6 +9,14 @@ let bcrypt = require("bcrypt");
 app.set("view engine", "ejs");
 const updata = require("./Updata");
 
+const https = require('https');
+const key = fs.readFileSync(__dirname + './certs/mojimon.key');
+const cert = fs.readFileSync(__dirname + './certs/mojimon.crt');
+const options = {
+ key: key,
+ cert: cert
+};
+
 function service() {
 
   app.use('/save_get', express.static(path.join(__dirname, './n/d/')));
@@ -136,13 +144,15 @@ function service() {
     res.status(409).sendFile(__dirname + "/data/erorr/409.html");
   });
 
-  //サーバーの起動
-  var listener = app.listen(3000, function () {
+   const server = https.createServer(options, app);
+
+ server.listen(3000, function () {
     console.log(
       "もじもんのサーバーは、" +
         listener.address().port +
         "で動いています!!!!!",
     );
+   
     console.log("____________________________________________________");
     console.log("|              Mojimon Developer Console");
     console.log("|                     起動しました。");
