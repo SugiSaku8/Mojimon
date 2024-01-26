@@ -1,24 +1,24 @@
 @font-face {
 	font-family: 'mojimon';
-	font-display:"swap";
+        font-display:"swap";
 	src: url('font/KleeOne-Regular.ttf');
 }
 
 @font-face{
 	font-family:'Noto Sans JP';
-	font-display:"swap";
+        font-display:"swap";
 	src: url('font/NotoSansJP-Regular.ttf');
 }
 
 @font-face{
 	font-family:'kaisei';
-	font-display:"swap";
+        font-display:"swap";
 	src: url('font/KaiseiOpti-Regular.ttf');
 }
 
 @font-face{
         font-family:'MP';
-	font-display:"swap";
+        font-display:"swap";
         src: url('font/MPLUS1p-Thin.ttf');
 }
 
@@ -31,7 +31,7 @@
     url('font/CF/icomoon.svg?qtrohe#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: block;
+  font-display:"swap";
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -51,10 +51,15 @@
 
 
 body {
+        user-select: none;
 	font-family: 'mojimon','cf';
+        
 }
 
 #account_touroku_form{
+        background-image: url(/img/back.jpg);
+        background-size: cover;
+        background-position: top center;
         text-align: center;
         margin: 0 auto;
         display: inline-block;
@@ -64,6 +69,9 @@ body {
 }
 
 #account_login_form{
+        background-image: url(/img/back.jpg);
+        background-size: cover;
+        background-position: top center;
         text-align: center;
         margin: 0 auto;
         display: inline-block;
@@ -135,9 +143,19 @@ body {
         cursor:pointer;
    }
 
+.mc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 
 .info {
-    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
@@ -223,13 +241,16 @@ button {
 
 #start_window {
 	top:0;
-	background-color: #ffffff;
+	/*background-color: #ffffff;*/
+        background-image: url(/img/back.jpg);
+        background-size: cover;
+        background-position: top center;
 	z-index:9999999999;
 	text-align: center;
 }
 
 #title_window{
-	 padding: 20px;  
+	/* padding: 20px;  */
 	margin:0 auto;
 	text-align: center;
 	display: inline-block;
@@ -369,11 +390,13 @@ button {
   font-family:'mojimon';
   font-weight: bold;
   height:50px;
+  cursor:pointer;
   
 }
 
 button:hover, .button:hover {
   background:white;
+        cursor:pointer;
 }
 
 label.error {

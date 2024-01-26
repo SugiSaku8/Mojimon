@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!doctype html>
+<html>
   <head>
-    <script src="talk.js"></script>
+    <script src="talk.js" defer></script>
     <link rel="icon" href="img/icon.webp" sizes="any" />
     <meta charset="utf-8" />
     <meta
@@ -9,73 +9,76 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <title>もじもん</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" defer/>
   </head>
-
-  <body>
+  <body oncontextmenu="return false;">
     <script id="auto script">
       let auto = 600000;
     </script>
-    <script src="data.js"></script>
-    <script src="setup.js"></script>
-    <audio src="sound/始まりの大陸bgm.mp3" autoplay id="hajimari" loop>
+    <script src="data.js"defer></script>
+    <script src="setup.js"defer></script>
+    <audio
+      src="sound/始まりの大陸bgm.mp3"
+      autoplay
+      id="hajimari"
+      loop　volume="0.5"
+    >
       <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
     </audio>
-    <audio src="sound/文字もんバトル.mp3" id="battle" loop>
+    <audio src="sound/文字もんバトル.mp3" id="battle" loop volume="0.5">
       <p>bgmを再生することができません。推奨ブラウザーを使用してください。</p>
     </audio>
     <audio src="sound/walk.mp3" id="walk"></audio>
-    <div id="jouhou"><!--情報をここから入手できるようにする予定-->
+    <div id="jouhou">
+      <!--情報をここから入手できるようにする予定-->
       <a style="display: none" id="teki_H"></a>
       <a style="display: none" id="teki_name"></a>
       <a style="display: none" id="teki_A"></a>
       <a style="display: none" id="teki_B"></a>
       <a style="display: none" id="teki_S"></a>
       <a style="display: none" id="jibun_H"></a>
-      <a style="　display: none" id="jibun_name"></a>
+      <a style="display: none" id="jibun_name"></a>
       <a style="display: none" id="jibun_A"></a>
       <a style="display: none" id="jibun_B"></a>
       <a style="display: none" id="jibun_S"></a>
     </div>
-    
+    <div id="main_battle">
+      <!--敵-->
+      <a id="teki_hp"></a>
+      <a>/</a>
+      <a id="teki_hp_max"></a>
+      <br />
+      <img id="teki_mojimon" src="" />
+      <br /><br /><br />
+      <!--自分-->
+      <img id="jibun_mojimon" src="" />
+      <br />
+      <a id="jibun_hp"></a>
+      <a>/</a>
+      <a id="jibun_hp_max"></a>
 
-      <div id="main_battle">
-        <!--敵-->
-        <a id="teki_hp"></a>
-        <a>/</a>
-        <a id="teki_hp_max"></a>
+      <button onclick="open_attack()" id="attack_button">こうげき</button>
+      <div id="attack">
+        <button
+          class="white"
+          id="taiatari"
+          onclick="add_and_run(`waza.taiatari`)"
+        >
+          たいあたり
+        </button>
+        <button
+          class="white"
+          type="button"
+          id="binta"
+          onclick="waza.binta(teki_result,jibun_result)"
+        >
+          びんた
+        </button>
         <br />
-        <img id="teki_mojimon" src=""/>
-        <br /><br /><br />
-        <!--自分-->
-        <img id="jibun_mojimon" src=""/>
-        <br />
-        <a id="jibun_hp"></a>
-        <a>/</a>
-        <a id="jibun_hp_max"></a>
-
-        <button onclick="open_attack()" id="attack_button">こうげき</button>
-        <div id="attack">
-          <button
-            class="white"
-            id="taiatari"
-            onclick="add_and_run(`waza.taiatari`)"
-          >
-            たいあたり
-          </button>
-          <button
-            class="white"
-            type="button"
-            id="binta"
-            onclick="waza.binta(teki_result,jibun_result)"
-          >
-            びんた
-          </button>
-          <br />
-          <button class="waterB" type="button">
-            　もじもんの特性を考えて攻撃すると経験値が上がります。
-          </button>
-          <!----<button
+        <button class="waterB" type="button">
+          　もじもんの特性を考えて攻撃すると経験値が上がります。
+        </button>
+        <!----<button
           class="waterB"
           type="button"
           onclick="waza.taiatari(teki_result,jibun_result)"
@@ -83,436 +86,534 @@
           使わないから
         </button>
         ------>
-        </div>
-        <!-- (='X'=) -->
-        <button onclick="open_items()" id="items_button">アイテム</button>
-        <div id="items">
-          <button class="yellow" type="button">エネルギービスケット</button>
-          <button class="yellow" type="button">エナジードリンク</button>
-          <button class="yellow" type="button">兵法書</button>
-        </div>
-        <br />
-        <button onclick="modoru()" id="modoru_button" class="mini_button">
-          もどる
-        </button>
       </div>
-      <h3 id="mes"></h3>
-      <script src="waza.js"></script>
-      <div id="start_window">
-        <div id="title_window">
-          <p id="title">もじもん</p>
-        </div>
-        <p></p>
-        <button id="start" onclick="setup()">スタート</button>
-        <p></p>
-        <button id="help" id="tutorial" onclick="tutorial()">ヘルプ</button>
-        <p>Mojimon V0.9b.1</p>
+      <!-- (='X'=) -->
+      <button onclick="open_items()" id="items_button">アイテム</button>
+      <div id="items">
+        <button class="yellow" type="button">エネルギービスケット</button>
+        <button class="yellow" type="button">エナジードリンク</button>
+        <button class="yellow" type="button">兵法書</button>
       </div>
-      <div id="tokusyu">
-        <div id="setup" class="setup">
-          <button onclick="tutorial()">ヘルプ</button>
-          <h2>アカウント</h2>
-          <h4>初めて遊ぶ人→アカウント登録</h4>
-          <h4>2回目以降→ログイン</h4>
-          <button onclick="account_touroku()">アカウント登録</button>
-          <button onclick="account_login()">ログイン</button>
-        </div>
-        <div id="account_touroku_form">
-          <form method="POST">
-            <h2>アカウント登録</h2>
-            <h5>アカウントを登録したら、errorになってしまった人へ</h5>
-            <h6>
-              すでに同じ名前のアカウントが存在するようです。<br />別の名前に変更してください。
-            </h6>
-            名前　　　：<input type="text" name="name" autocomplete="username"/><br />
-            パスワード：<input type="password" name="password"autocomplete="new-password" /><br />
-            <input
-              type="submit"
-              onclick="document.getElementById('message').innerHTML = 'アカウントの登録に成功しました。'"
-              class="green"
-            />
-            <div id="message" style="color: green"></div>
-          </form>
-          <button onclick="setup();">もどる</button>
-        </div>
-        <div id="account_login_form">
-          <form id="searchForm">
-            <h2>文字もんアカウントでログイン</h2>
-            名前　　　：<input type="text" id="searchName" autocomplete="username"/><br />
-            パスワード: <input type="password" id="searchPassword"autocomplete="current-password" /><br />
-            <input
-              type="submit"
-              class="green"
-              name="ログインする"
-              onclick="loginUser(document.getElementById('searchName').value, document.getElementById('searchPassword').value)"
-            />
-            <div id="result" class="green"></div>
-          </form>
-        </div>
-        <div class="modal" id="modal">
-          <div class="popup glass rounded">
-            <h2 style="font-family:'MP','cf';">もじもん</h2>
-            <p style="font-family:'MP','cf';">
-              Version:0.9.β<br />
-              ©2023-24
-            </p>
-            <button class="button" onclick="back();">ゲームに戻る</button>
-            <br />
-            <button class="button" onclick="">設定</button>
-            <br />
-            <button class="button" onclick="save();back();">保存して終了</button>
-          </div>
-        </div>
-        <div class="modal" id="account">
-          <div
-            class="popup glass rounded"
-            style="background-color: #cae5cd; opacity: 0.9; font-weight: bold"
-          >
-            <a>アカウント名:<span id="name"></span></a><br /><br />
-            <a
-              >残りの<span style="font-weight: 400;font-family:'mojimon','cf';"></span>:<span
-                id="pl_nokori"
-              ></span
-              ><span style="font-weight: 400;font-family:'mojimon','cf';"></span></a
-            ><br /><br />
-            <a>経験値:<span id="exp"></span></a><br /><br />
-            <a>もじもんの一覧:<button id="mojimon_list">開く</button></a>
-            <br />
-            <a>アイテムの一覧:<button>開く</button></a>
-            <br />
-            <button class="button" onclick="back_e();">ゲームに戻る</button>
-            <script>
-              let exp = 99999999;
-              let pl_nokori = 99999999;
-              function update(id, text) {
-                document.getElementById(id).innerHTML = text;
-              }
-              function updata_info() {
-                document.getElementById("name").innerText = Login;
-                document.getElementById("pl_nokori").innerText = pl_nokori;
-                document.getElementById("exp").innerText = exp;
-              }
-              setInterval(updata_info, 1000); 
-              
-            </script>
-          </div>
+      <br />
+      <button onclick="modoru()" id="modoru_button" class="mini_button">
+        もどる
+      </button>
+    </div>
+    <h3 id="mes"></h3>
+    <script src="waza.js"></script>
+    <div id="start_window">
+      <div id="title_window">
+        <p id="title">もじもん</p>
+      </div>
+      <p></p>
+      <button id="start" onclick="setup()">スタート</button>
+      <p></p>
+      <button id="help" id="tutorial" onclick="tutorial()">ヘルプ</button>
+      <p style="text-align: center; color: #ffff; font-size: 20px">
+        Mojimon V0.9b.1
+      </p>
+    </div>
+    <div id="tokusyu">
+      <div id="setup" class="setup">
+        <button onclick="tutorial()">ヘルプ</button>
+        <h2>アカウント</h2>
+        <h4>初めて遊ぶ人→アカウント登録</h4>
+        <h4>2回目以降→ログイン</h4>
+        <button onclick="account_touroku()">アカウント登録</button>
+        <button onclick="account_login()">ログイン</button>
+      </div>
+      <div id="account_touroku_form">
+        <form method="POST">
+          <h2>アカウント登録</h2>
+          <h5>アカウントを登録したら、errorになってしまった人へ</h5>
+          <h6>
+            すでに同じ名前のアカウントが存在するようです。<br />別の名前に変更してください。
+          </h6>
+          名前　　　：<input
+            type="text"
+            name="name"
+            autocomplete="username"
+          /><br />
+          パスワード：<input
+            type="password"
+            name="password"
+            autocomplete="new-password"
+          /><br />
+          <input
+            type="submit"
+            onclick="document.getElementById('message').innerHTML = 'アカウントの登録に成功しました。'"
+            class="green"
+          />
+          <div id="message" style="color: green"></div>
+        </form>
+        <button onclick="setup();">もどる</button>
+      </div>
+      <div id="account_login_form">
+        <form id="searchForm">
+          <h2>文字もんアカウントでログイン</h2>
+          名前　　　：<input
+            type="text"
+            id="searchName"
+            autocomplete="username"
+          /><br />
+          パスワード:
+          <input
+            type="password"
+            id="searchPassword"
+            autocomplete="current-password"
+          /><br />
+          <input
+            type="submit"
+            class="green"
+            name="ログインする"
+            onclick="loginUser(document.getElementById('searchName').value, document.getElementById('searchPassword').value)"
+          />
+          <div id="result" class="green"></div>
+        </form>
+      </div>
+      <div class="modal" id="modal">
+        <div class="popup glass rounded">
+          <h2 style="font-family: &quot;MP&quot;, &quot;cf&quot;">もじもん</h2>
+          <p style="font-family: &quot;MP&quot;, &quot;cf&quot;">
+            Version:0.9.β<br />
+            ©2023-24
+          </p>
+          <button class="button" onclick="back();">ゲームに戻る</button>
+          <br />
+          <button class="button" onclick="">設定</button>
+          <br />
+          <button class="button" onclick="save();back();">保存して終了</button>
         </div>
       </div>
-      <script>
-        let url = "https://mojimon.onrender.com/"
-        var change;
-        var teki_hp;
-        var teki_hp2;
-        var teki_atk;
-        var teki_def;
-        var jibun_hp;
-        var jibun_hp2;
-        var jibun_atk;
-        var jibun_def;
-        var login_status;
-        var Login;
-        var teki_result = {};
-        var jibun_result = {};
-        let save_cycle = 30000
-        var timestamp = Date.now();
-        function tutorial() {
-          alert("こんにちは！\nもじもんへようこそ！");
-          alert("ゲームの説明...ではなく\nスタート方法を教えます。");
-          alert(
-            "このゲームでは、データの保存\nなどのために、アカウントが必要です。",
-          );
-          alert(
-            "スタートボタンを押すと、\nアカウントを作るか、ログインするか\n選べます。",
-          );
-          alert("初めて遊ぶ人は、アカウントを作りましょう。");
-          alert(
-            "アカウントを作るときには、\n名前(本当の名前じゃなくてもいい)\nパスワード(忘れないようにしてください)\nが必要です。",
-          );
-          alert(
-            "もし、パスワード、名前を忘れた場合は、\n1組わとうそうすけか2組すぎやまさくやに直接言ってください。",
-          );
-          alert("アカウントを作った後は、ログインしましょう。");
-          alert("作った時に使った名前と\nパスワードを入力しましょう。");
-          alert("ログインしたら、\nゲームを始めることができます。");
-          alert("それでは、楽しんでください。");
+      <div class="modal" id="account">
+        <div
+          class="popup glass rounded"
+          style="background-color: #cae5cd; opacity: 0.9; font-weight: bold"
+        >
+          <a>アカウント名:<span id="name"></span></a><br /><br />
+          <a
+            >残りの<span
+              style="
+                font-weight: 400;
+                font-family: &quot;mojimon&quot;, &quot;cf&quot;;
+              "
+              ></span
+            >:<span id="pl_nokori"></span
+            ><span
+              style="
+                font-weight: 400;
+                font-family: &quot;mojimon&quot;, &quot;cf&quot;;
+              "
+              ></span
+            ></a
+          ><br /><br />
+          <a>経験値:<span id="exp"></span></a><br /><br />
+          <a>もじもんの一覧:<button id="mojimon_list">開く</button></a>
+          <br />
+          <a>アイテムの一覧:<button>開く</button></a>
+          <br />
+          <button class="button" onclick="back_e();">ゲームに戻る</button>
+          <script>
+            let exp = 99999999;
+            let pl_nokori = 99999999;
+            function update(id, text) {
+              document.getElementById(id).innerHTML = text;
+            }
+            function updata_info() {
+              document.getElementById("name").innerText = Login;
+              document.getElementById("pl_nokori").innerText = pl_nokori;
+              document.getElementById("exp").innerText = exp;
+            }
+            setInterval(updata_info, 1000);
+          </script>
+        </div>
+      </div>
+    </div>
+    <script>
+      {
+      let url =
+        "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/";
+      var change;
+      var teki_hp;
+      var teki_hp2;
+      var teki_atk;
+      var teki_def;
+      var jibun_hp;
+      var jibun_hp2;
+      var jibun_atk;
+      var jibun_def;
+      var login_status;
+      var Login;
+      var teki_result = {};
+      var jibun_result = {};
+      let save_cycle = 30000;
+      var timestamp = Date.now();
+      function tutorial() {
+        alert("こんにちは！\nもじもんへようこそ！");
+        alert("ゲームの説明...ではなく\nスタート方法を教えます。");
+        alert(
+          "このゲームでは、データの保存\nなどのために、アカウントが必要です。",
+        );
+        alert(
+          "スタートボタンを押すと、\nアカウントを作るか、ログインするか\n選べます。",
+        );
+        alert("初めて遊ぶ人は、アカウントを作りましょう。");
+        alert(
+          "アカウントを作るときには、\n名前(本当の名前じゃなくてもいい)\nパスワード(忘れないようにしてください)\nが必要です。",
+        );
+        alert(
+          "もし、パスワード、名前を忘れた場合は、\n1組わとうそうすけか2組すぎやまさくやに直接言ってください。",
+        );
+        alert("アカウントを作った後は、ログインしましょう。");
+        alert("作った時に使った名前と\nパスワードを入力しましょう。");
+        alert("ログインしたら、\nゲームを始めることができます。");
+        alert("それでは、楽しんでください。");
+      }
+
+      function random14() {
+        return Math.floor(Math.random() * 10000);
+      }
+      function random18() {
+        return Math.floor(Math.random() * 100000000);
+      }
+      }//初期設定等
+
+
+      
+      {
+      function spawn_mojimon() {
+        for (let i = 1; i < 11; i++) {
+          let mapWidth = 5120; // マップの幅
+          let mapHeight = 3840; // マップの高さ
+          mojimon_shuffle();
+          let monster = mojimon_shuffle();
+          let monster_0 = monster[0];
+
+          let x = Math.floor(Math.random() * mapWidth); // ランダムなX座標を生成
+          let y = Math.floor(Math.random() * mapHeight); // ランダムなY座標を生成
+
+          spawnMonsterAtPosition(monster_0, x, y, i); // モンスターをスポーンさせる関数を呼び出す
         }
-        
-        // モンスターのリスト
-        
+      }
+      window.addEventListener("resize", adjustMojimonPosition);
+      window.addEventListener("load", adjustMojimonPosition);
 
-        function spawn_mojimon() {
-         for(let i = 1; i < 11; i++) { 
-           let mapWidth = 5120; // マップの幅
-           let mapHeight = 3840; // マップの高さ
-           mojimon_shuffle()
+      function spawnMonsterAtPosition(monster, x, y, i) {
+        // ここもじもんをスポーンさせる処理を書く by AI
+        // 例えば、HTML要素を作成してマップ上のランダムな位置に配置するなど
 
-            let monster = mojimon_shuffle()
-            let monster_0 = monster[0]
+        var item = document.getElementById(`mojimon_spawn${i}`);
+        item.src = `img/mojimon/${monster}.png`;
 
+        console.log([x + "px", y + "px"]);
+
+        item.style.left = x + "px";
+        item.style.top = y + "px";
+      }
+        function adjustMojimonPosition() {
+         for (var i = 1; i < 11; i++) {
+            var item = document.getElementById(`mojimon_spawn${i}`);
+            var container = document.getElementById(`mojimonContainer${i}`);
+            var containerRect = container.getBoundingClientRect();
+            var itemRect = item.getBoundingClientRect();
+
+            var newX = Math.floor(containerRect.left + containerRect.width / 2 - itemRect.width / 2);
+            var newY = Math.floor(containerRect.top + containerRect.height / 2 - itemRect.height / 2);
+
+            item.style.left = newX + "px";
+            item.style.top = newY + "px";
+         }
+        }
+        window.addEventListener("resize", adjustMojimonPosition);
+        window.addEventListener("load", adjustMojimonPosition);
+
+      //モンスタースポーン//hello.
+      function spawn_mon() {
+        if (random14() === 1) {
+          if (random18() === 1) {
+            let mapWidth = 5120; // マップの幅
+            let mapHeight = 3840; // マップの高さ
+            let mon = "καταραμένο.mon";
+            let x = Math.floor(Math.random() * mapWidth); // ランダムなX座標を生成
+            let y = Math.floor(Math.random() * mapHeight); // ランダムなY座標を生成
+            spawnMonsterAtPosition(mon, x, y, i); // モンスターをスポーンさせる関数を呼び出す
+          } else {
+            let mapWidth = 5120; // マップの幅
+            let mapHeight = 3840; // マップの高さ
+            let mon = "";
             let x = Math.floor(Math.random() * mapWidth); // ランダムなX座標を生成
             let y = Math.floor(Math.random() * mapHeight); // ランダムなY座標を生成
 
-            spawnMonsterAtPosition(monster_0, x, y, i); // モンスターをスポーンさせる関数を呼び出す
-         }
-        }
-        window.addEventListener('resize', adjustMojimonPosition);
-        window.addEventListener('load', adjustMojimonPosition);
-
-        function spawnMonsterAtPosition(monster, x, y, i) {
-         // ここもじもんをスポーンさせる処理を書く by AI
-         // 例えば、HTML要素を作成してマップ上のランダムな位置に配置するなど
-          
-          var item = document.getElementById(`mojimon_spawn${i}`)
-          item.src = `img/mojimon/${monster}.png`;
-
-          console.log([x + 'px',y + 'px'])
-
-          item.style.left = x + 'px';
-          item.style.top = y + 'px';
-        }
-        function adjustMojimonPosition() {
-          for (var i = 1; i < 11; i++) {
-         var item = document.getElementById(`mojimon_spawn${i}`)
-
-
-          var container = document.getElementById('CofB');
-          var containerRect = container.getBoundingClientRect();
-          var itemRect = item.getBoundingClientRect();
-
-          newX = Math.floor((containerRect.width / 2) - (itemRect.width / 2));
-          newY = Math.floor((containerRect.height / 2) - (itemRect.height / 2));
-
-          item.style.left = newX + 'px';
-          item.style.top = newY + 'px';
+            spawnMonsterAtPosition(mon, x, y, i); // モンスターをスポーンさせる関数を呼び出す
           }
         }
+      }
+      window.addEventListener("resize", adjustMonPosition);
+      window.addEventListener("load", adjustMonPosition);
+      function spawnMonAtPosition(monster, x, y, i) {
+        // ここもじもんをスポーンさせる処理を書く by AI
+        // 例えば、HTML要素を作成してマップ上のランダムな位置に配置するなど
 
-        function open_attack() {
-          //こうげきを開く
-          document.getElementById("attack_button").style.display = "none";
-          document.getElementById("items_button").style.display = "none";
-          document.all.attack.style.display = "block";
-          document.getElementById("modoru_button").style.display = "block";
+        var item = document.getElementById(`mon_spawn`);
+        item.src = `img/mon/${monster}.png`;
+
+        console.log([x + "px", y + "px"]);
+
+        item.style.left = x + "px";
+        item.style.top = y + "px";
+      }
+      function adjustMonPosition() {
+        var item = document.getElementById(`mon_spawn`);
+        var container = document.getElementById("CofB");
+        var containerRect = container.getBoundingClientRect();
+        var itemRect = item.getBoundingClientRect();
+
+        newX = Math.floor(containerRect.width / 2 - itemRect.width / 2);
+        newY = Math.floor(containerRect.height / 2 - itemRect.height / 2);
+
+        item.style.left = newX + "px";
+        item.style.top = newY + "px";
+      }
+      }//文字もん、モンスター出現
+
+
+      
+      {
+      function open_attack() {
+        //こうげきを開く
+        document.getElementById("attack_button").style.display = "none";
+        document.getElementById("items_button").style.display = "none";
+        document.all.attack.style.display = "block";
+        document.getElementById("modoru_button").style.display = "block";
+      }
+      function open_items() {
+        //アイテムを開く
+        document.getElementById("items_button").style.display = "none";
+        document.getElementById("attack_button").style.display = "none";
+        document.all.items.style.display = "block";
+        document.getElementById("modoru_button").style.display = "block";
+      }
+      function modoru() {
+        //もどる
+        document.getElementById("modoru_button").style.display = "none";
+        document.all.attack.style.display = "none";
+        document.all.items.style.display = "none";
+        document.getElementById("attack_button").style.display = "block";
+        document.getElementById("items_button").style.display = "block";
+      }
+      function data_send(check_result, isteki) {
+        if (isteki) {
+          document.getElementById("teki_mojimon").src =
+            `img/mojimon/${check_result.name}.png`;
+          var B = check_result.busyu;
+          var lv = 1; //仮
+          var hp = Math.floor(
+            10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
+          );
+          document.getElementById("teki_H").innerHTML = hp;
+          document.getElementById("teki_hp").innerHTML = hp;
+          document.getElementById("teki_hp_max").innerHTML = hp;
+          var atk = 0; //ここになに入れるの？
+        } else {
+          document.getElementById("jibun_mojimon").src =
+            `img/mojimon/${check_result.name}.png`;
+          var B = check_result.busyu;
+          var lv = 1; //仮
+          var hp = Math.floor(
+            10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
+          );
+          document.getElementById("jibun_H").innerHTML = hp;
+          document.getElementById("jibun_hp").innerHTML = hp;
+          document.getElementById("jibun_hp_max").innerHTML = hp;
         }
-        function open_items() {
-          //アイテムを開く
-          document.getElementById("items_button").style.display = "none";
-          document.getElementById("attack_button").style.display = "none";
-          document.all.items.style.display = "block";
-          document.getElementById("modoru_button").style.display = "block";
+      }
+      (() => {
+        "use strict";
+        let isSubmit = false;
+        let userGestureExists = false;
+        for (const v of ["click", "keydown"]) {
+          addEventListener(
+            v,
+            () => {
+              userGestureExists = true;
+            },
+            { once: true },
+          );
         }
-        function modoru() {
-          //もどる
-          document.getElementById("modoru_button").style.display = "none";
-          document.all.attack.style.display = "none";
-          document.all.items.style.display = "none";
-          document.getElementById("attack_button").style.display = "block";
-          document.getElementById("items_button").style.display = "block";
-        }
-        function data_send(check_result, isteki) {
-          if (isteki) {
-            document.getElementById("teki_mojimon").src =
-              `img/mojimon/${check_result.name}.png`;
-            var B = check_result.busyu;
-            var lv = 1; //仮
-            var hp = Math.floor(
-              10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
-            );
-            document.getElementById("teki_H").innerHTML = hp;
-            document.getElementById("teki_hp").innerHTML = hp;
-            document.getElementById("teki_hp_max").innerHTML = hp;
-            var atk = 0; //ここになに入れるの？
-          } else {
-            document.getElementById("jibun_mojimon").src =
-              `img/mojimon/${check_result.name}.png`;
-            var B = check_result.busyu;
-            var lv = 1; //仮
-            var hp = Math.floor(
-              10 + Math.log(30000 * B) + 6 * B + 11 ** lv / 10 ** lv,
-            );
-            document.getElementById("jibun_H").innerHTML = hp;
-            document.getElementById("jibun_hp").innerHTML = hp;
-            document.getElementById("jibun_hp_max").innerHTML = hp;
+        addEventListener("beforeunload", (e) => {
+          if (!isSubmit && userGestureExists) {
+            e.preventDefault();
+            save();
+            e.returnValue = "Are you sure you want to exit?";
           }
-        }
-        (() => {
-            'use strict';
-            let isSubmit = false;
-            let userGestureExists = false;
-            for (const v of ['click', 'keydown']) {
-                addEventListener(v, () => { userGestureExists = true; }, { once: true });
-            }
-            addEventListener('beforeunload', e => {
-                if (!isSubmit && userGestureExists) {
-                    e.preventDefault();
-                  save();
-                    e.returnValue = 'Are you sure you want to exit?';
-                }
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+          document
+            .getElementsByTagName("button")[0]
+            .addEventListener("click", () => {
+              isSubmit = true;
             });
-            document.addEventListener('DOMContentLoaded', () => {
-                document.getElementsByTagName('button')[0].addEventListener('click', () => { isSubmit = true; });
-            });
-        })();
-        function save(){
-          let savedata={
-              version:"0.9.b",
-              user:Login,
-              exp:exp,
-              pl_nokori:pl_nokori,
-              tairiku:01,
-              x:x,
-            y:y,
-              //item:Getitem,
-             // mojimon:Mojimon_list,
-              //xp:xp,
-          }
-          let data = {
-              "user": Login,
-              "body": savedata,
-              "time": timestamp
-          };
-      console.log(data)
-           const savewdata = JSON.stringify(data);
-          fetch(url+'save', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(savedata),
-          })
+        });
+      })();
+      function save() {
+        let savedata = {
+          version: "0.9.b",
+          user: Login,
+          exp: exp,
+          pl_nokori: pl_nokori,
+          tairiku: 01,
+          x: x,
+          y: y,
+          //item:Getitem,
+          // mojimon:Mojimon_list,
+          //xp:xp,
+        };
+        let data = {
+          user: Login,
+          body: savedata,
+          time: timestamp,
+        };
+        console.log(data);
+        const savewdata = JSON.stringify(data);
+        fetch(url + "save", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(savedata),
+        })
           .then((response) => response.json())
           .then((savewdata) => {
-              console.log('Success:', savewdata);
+            console.log("Success:", savewdata);
           })
           .catch((error) => {
-              //console.error("クライアントエラー:"+error);
+            //console.error("クライアントエラー:"+error);
           });
+      }
+      //保存関数はこれ
+      function save_local() {
+        let save_data = {
+          version: "0.9.b",
+          user: Login,
+          exp: exp,
+          pl_nokori: pl_nokori,
+          tairiku: 01,
+          //xy:xy,
+          //item:Getitem,
+          //mojimon:Mojimon_list,
+          //xp:xp,
+        };
+        let data = {
+          user: Login,
+          body: save_data,
+          time: timestamp,
+        };
+        localStorage.setItem("data", data);
+      }
+      function mojimon_shuffle() {
+        for (i = mojimon_array.length; 1 < i; i--) {
+          k = Math.floor(Math.random() * i);
+          [mojimon_array[k], mojimon_array[i - 1]] = [
+            mojimon_array[i - 1],
+            mojimon_array[k],
+          ];
         }
-        //保存関数はこれ
-        function save_local(){
-          let save_data={
-              version:"0.9.b",
-              user:Login,
-              exp:exp,
-              pl_nokori:pl_nokori,
-              tairiku:01,
-              //xy:xy,
-              //item:Getitem,
-              //mojimon:Mojimon_list,
-              //xp:xp,
-          }
-          let data = {
-              "user": Login,
-              "body": save_data,
-              "time": timestamp
-          };
-          localStorage.setItem("data", data);
-        }
-        function mojimon_shuffle(){
-          for (i = mojimon_array.length; 1 < i; i--) {
-            k = Math.floor(Math.random() * i);
-            [mojimon_array[k], mojimon_array[i - 1]] = [
-              mojimon_array[i - 1],
-              mojimon_array[k],
-            ];
-          }
-          return mojimon_array
-        }
-        mojimon_array = [
-          "火",
-          "山",
-          "水",
-          "石",
-          "金",
-          "土",
-          "月",
-          "日",
-          "木",
-          "雨",
-          "川",
-          "夕",
-          "花",
-          "草",
-          "右",
-          "左",
-          "一",
-          "二",
-          "三",
-          "四",
-          "五",
-          "六",
-          "七",
-          "八",
-          "九",
-          "十",
-          "上",
-          "下",
-          "円",
-          "王",
-          "音",
-          "貝",
-          "学",
-          "気",
-          "休",
-          "玉",
-          "空",
-          "犬",
-          "見",
-          "竹",
-          "田",
-          "口",
-          "白",
-          "青",
-          "赤",
-          "林",
-          "森",
-          "校",
-          "千",
-          "百",
-          "力",
-          "文",
-          "立",
-          "目",
-          "名",
-          "本",
-          "年",
-          "入",
-          "天",
-          "町",
-          "虫",
-          "中",
-          "男",
-          "女",
-          "大",
-          "小",
-          "糸",
-          "子",
-          "字",
-          "耳",
-          "車",
-          "手",
-          "出",
-          "人",
-          "正",
-          "生",
-          "先",
-          "早",
-          "足",
-          "村",
-        ];
-        function getData() {
+        return mojimon_array;
+      }
+      mojimon_array = [
+        "火",
+        "山",
+        "水",
+        "石",
+        "金",
+        "土",
+        "月",
+        "日",
+        "木",
+        "雨",
+        "川",
+        "夕",
+        "花",
+        "草",
+        "右",
+        "左",
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "七",
+        "八",
+        "九",
+        "十",
+        "上",
+        "下",
+        "円",
+        "王",
+        "音",
+        "貝",
+        "学",
+        "気",
+        "休",
+        "玉",
+        "空",
+        "犬",
+        "見",
+        "竹",
+        "田",
+        "口",
+        "白",
+        "青",
+        "赤",
+        "林",
+        "森",
+        "校",
+        "千",
+        "百",
+        "力",
+        "文",
+        "立",
+        "目",
+        "名",
+        "本",
+        "年",
+        "入",
+        "天",
+        "町",
+        "虫",
+        "中",
+        "男",
+        "女",
+        "大",
+        "小",
+        "糸",
+        "子",
+        "字",
+        "耳",
+        "車",
+        "手",
+        "出",
+        "人",
+        "正",
+        "生",
+        "先",
+        "早",
+        "足",
+        "村",
+      ];
+      function getData(i) {
           //いまは一年生の文字もんだけ
-          
 
-          mojimon_shuffle()  
 
-          jibun_mojimon = mojimon_array[0];
+          jibun_mojimon = mojimon_shuffle(),mojimon_array[0];
           jibun_result = check(jibun_mojimon);
           data_send(jibun_result, false);
 
-          mojimon_shuffle()
-
-          teki_mojimon = mojimon_array[0];
+          elem = document.getElementById(`mojimon_spawn${i}`).src;
+        console.log(elem);
+          var teki_mojimon = elem.split(/[a-z]/g)
+          
           teki_result = check(teki_mojimon);
           data_send(teki_result, true);
 
@@ -522,7 +623,7 @@
             var teki_lv = 1; //仮
             function hp_keisan(A, B) {
               var result = Math.floor(
-                10 + Math.log(30000 * A) + 6 * A + Math.log(3 ** B),
+                10 + Math.log(30000 * A) + 6 * A + B * 1.5,
               );
               return result;
             }
@@ -530,7 +631,8 @@
             var teki_hp = teki_hp2;
             var teki_NB = teki_result.kakusuu - teki_result.busyu;
             var teki_atk = Math.floor(
-              20 +Math.log(Math.log(4 ** ((teki_NB + 1) ** 2))) * 5 +
+              20 +
+                Math.log(Math.log(4 ** ((teki_NB + 1) ** 2))) * 5 +
                 Math.log(3 ** teki_lv),
             );
             var teki_NBS = teki_NB - teki_result.busyu;
@@ -590,30 +692,34 @@
           return {
             teki_result,
             jibun_result,
-          };
+          }
         }
-        function Getstatus(){
-            let kakunin_fa = localStorage.getItem("status") // Use the correct key here
-            if(kakunin_fa != undefined){
-                var data = JSON.parse(kakunin_fa); // Parse the retrieved data
-                var currentTimestamp = Date.now();
-                var expiryTime = 744 * 60 * 60 * 1000;
-                if (data && currentTimestamp - data.timestamp <= expiryTime) {
-                  let Login = localStorage.getItem("user");
-                  return true;
-                }
-                else {
-                    localStorage.removeItem("status"); // Remove the item with the correct key
-                    return false;
-                }
-            }else{
-                return false;
-            }
+      }//バトル、セーブ機能等
+
+
+      
+      {
+      function Getstatus() {
+        let kakunin_fa = localStorage.getItem("status"); // Use the correct key here
+        if (kakunin_fa != undefined) {
+          var data = JSON.parse(kakunin_fa); // Parse the retrieved data
+          var currentTimestamp = Date.now();
+          var expiryTime = 744 * 60 * 60 * 1000;
+          if (data && currentTimestamp - data.timestamp <= expiryTime) {
+            let Login = localStorage.getItem("user");
+            return true;
+          } else {
+            localStorage.removeItem("status"); // Remove the item with the correct key
+            return false;
+          }
+        } else {
+          return false;
         }
-        let lstas = Getstatus();
-        function setup() {
-    if(lstas === false){
-      //通常ログイン（Ahlog無効)
+      }
+      let lstas = Getstatus();
+      function setup() {
+        if (lstas === false) {
+          //通常ログイン（Ahlog無効)
           getData();
           document.getElementById("battle").pause();
           document.getElementById("hajimari").play();
@@ -621,200 +727,293 @@
           document.getElementById("setup").style.display = "block";
           document.all.account_touroku_form.style.display = "none";
           document.all.account_login_form.style.display = "none";
-      
-    }else{
-    console.log("Ahlgが実行されました。")
-      Login = name;
-      login_status = true;
-       document.getElementById("start_window").style.display = "none";
-      document.getElementById("result").innerText =
-        "ログインに成功しました。";
-      document.getElementById("map").style.display = "block";
-      document.getElementById("account_login_form").style.display =
-        "none";
-      spawn_mojimon()
-      document.getElementById("battle").pause();
-      document.getElementById("hajimari").play();
-      getData();
-      Login = localStorage.getItem("user");
-    }
-        }
-        async function GetsaveData(Name){
-           let savedatae = await fetch("/save_get/"+Name+".moji");
-           let GetSaveData  = await savedatae.json();
-          console.log(GetSaveData);
-          try{
-          exp = GetSaveData.data.exp
-          pl_nokori = GetSaveData.data.pl_nokori
-          tairiku = GetSaveData.data.tairiku
-          x = GetSaveData.data.x
-          y = GetSaveData.data.y
-            console.info("データを同期しました。")
-          }catch (error){
-            console.error("データの同期中にエラーが発生しました。\n"+error)
-          }
-        }
-
-        getData();
-        function account_touroku() {
-          document.all.setup.style.display = "none";
-          document.all.account_touroku_form.style.display = "block";
-        }
-        function account_login() {
-          document.all.setup.style.display = "none";
-          document.all.account_login_form.style.display = "block";
-        }
-        async function loginUser(name, password) {
-          event.preventDefault(); // ページのリロードを防ぐ
-          try {
-            const response = await fetch(
-              "/get?name=" +
-                encodeURIComponent(name) +
-                "&password=" +
-                encodeURIComponent(password),
-            );
-            if (!response.ok) {
-              throw new Error("アカウント名が違います。");
-            }
-            const data = await response.json();
-            if (data.isMatch) {
-              Login = name;
-              login_status = true;
-              document.getElementById("result").innerText =
-                "ログインに成功しました。";
-              document.getElementById("map").style.display = "block";
-              document.getElementById("account_login_form").style.display =
-                "none";
-              document.getElementById("battle").play();
-              document.getElementById("hajimari").pause();
-              getData();
-              localStorage.setItem("status", JSON.stringify({ value: true, timestamp: timestamp }));
-              localStorage.setItem("user", Login);
-              spawn_mojimon()
-            } else {
-              throw new Error("パスワードが違います。");
-            }
-          } catch (error) {
-            document.getElementById("result").innerText =
-              "Error: " + error.message;
-          }
-        }
-        window.addEventListener("DOMContentLoaded", function () {
-          //読み込まれたら発動
-
-          document.all.attack.style.display = "none";
-          document.all.items.style.display = "none";
-          document.getElementById("modoru_button").style.display = "none";
-          document.all.setup.style.display = "none";
-          document.all.account_touroku_form.style.display = "none";
-          document.all.account_login_form.style.display = "none";
-        });
-        window.onload = function () {
-          var message = localStorage.getItem("message");
-          if (message) {
-            document.getElementById("message").innerText = message;
-            localStorage.removeItem("message");
-          }
-        };
-        window.addEventListener("load", function () {
-          console.log("load：リソースファイルを全て読み込みました。");
+        } else {
+          console.log("Ahlgが実行されました。");
+          Login = name;
+          login_status = true;
+          document.getElementById("start_window").style.display = "none";
+          document.getElementById("result").innerText =
+            "ログインに成功しました。";
+          document.getElementById("map").style.display = "block";
+          document.getElementById("account_login_form").style.display = "none";
+          spawn_mojimon();
+          document.getElementById("battle").pause();
           document.getElementById("hajimari").play();
-        });
-        setInterval(save_local,save_cycle)
-      </script>
-      <video roop autoplay src="img/splash.mp4" id="splashScreen"></video>
-      <script>
-        document.getElementById("splashScreen").style.display = "block";
-        window.onload = function () {
-          document.getElementById("splashScreen").style.display = "none";
-          document.getElementById("start_window").style.display = "block";
-        };
-        function stop_game() {
-          document.getElementById("modal").style.display = "block";
+          document.body.style.backgroundColor = "white";
+          getData();
+          Login = localStorage.getItem("user");
         }
-        function back() {
-          document.getElementById("modal").style.display = "none";
+      }
+      async function GetsaveData(Name) {
+        let savedatae = await fetch("/save_get/" + Name + ".moji");
+        let GetSaveData = await savedatae.json();
+        console.log(GetSaveData);
+        try {
+          exp = GetSaveData.data.exp;
+          pl_nokori = GetSaveData.data.pl_nokori;
+          tairiku = GetSaveData.data.tairiku;
+          x = GetSaveData.data.x;
+          y = GetSaveData.data.y;
+          console.info("データを同期しました。");
+        } catch (error) {
+          console.error("データの同期中にエラーが発生しました。\n" + error);
         }
-
-        function back_e() {
-          document.getElementById("account").style.display = "none";
-        }
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape") {
-            var change = document.getElementById("modal");
-
-            if (change.style.display == "block") {
-              change.style.display = "none";
-            } else {
-              change.style.display = "block";
-            }
+      }
+      function account_touroku() {
+        document.all.setup.style.display = "none";
+        document.all.account_touroku_form.style.display = "block";
+      }
+      function account_login() {
+        document.all.setup.style.display = "none";
+        document.all.account_login_form.style.display = "block";
+      }
+      async function loginUser(name, password) {
+        event.preventDefault(); // ページのリロードを防ぐ
+        try {
+          const response = await fetch(
+            "/get?name=" +
+              encodeURIComponent(name) +
+              "&password=" +
+              encodeURIComponent(password),
+          );
+          if (!response.ok) {
+            throw new Error("アカウント名が違います。");
           }
-        });
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "e") {
-            var change = document.getElementById("account");
-
-            if (change.style.display == "block") {
-              change.style.display = "none";
-            } else {
-              change.style.display = "block";
-            }
+          const data = await response.json();
+          if (data.isMatch) {
+            Login = name;
+            login_status = true;
+            document.getElementById("result").innerText =
+              "ログインに成功しました。";
+            document.getElementById("map").style.display = "block";
+            document.getElementById("account_login_form").style.display =
+              "none";
+            document.getElementById("battle").play();
+            document.getElementById("hajimari").pause();
+            getData();
+            localStorage.setItem(
+              "status",
+              JSON.stringify({ value: true, timestamp: timestamp }),
+            );
+            localStorage.setItem("user", Login);
+            spawn_mojimon();
+            document.body.style.backgroundColor = "white";
+          } else {
+            throw new Error("パスワードが違います。");
           }
-        });
-      </script>
-      <div id="map">
-        <div class="info" id="readme" style="display:none;">
-            <h2 class="info-title"><span id="info_title"></span></h2>
-            <div class="info-body"id="info_body">
-            </div>
+        } catch (error) {
+          document.getElementById("result").innerText =
+            "Error: " + error.message;
+        }
+      }
+      window.addEventListener("DOMContentLoaded", function () {
+        //読み込まれたら発動
+
+        document.all.attack.style.display = "none";
+        document.all.items.style.display = "none";
+        document.getElementById("modoru_button").style.display = "none";
+        document.all.setup.style.display = "none";
+        document.all.account_touroku_form.style.display = "none";
+        document.all.account_login_form.style.display = "none";
+      });
+      window.onload = function () {
+        var message = localStorage.getItem("message");
+        if (message) {
+          document.getElementById("message").innerText = message;
+          localStorage.removeItem("message");
+        }
+      };
+      window.addEventListener("load", function () {
+        console.log("load：リソースファイルを全て読み込みました。");
+        document.getElementById("hajimari").play();
+      });
+      setInterval(save_local, save_cycle);
+      }//セーブ、初期イベント発動
+    </script>
+    <video roop autoplay src="img/splash.mp4" id="splashScreen"></video>
+    <script>
+      document.getElementById("splashScreen").style.display = "block";
+      window.onload = function () {
+        document.getElementById("splashScreen").style.display = "none";
+        document.getElementById("start_window").style.display = "block";
+      };
+      function stop_game() {
+        document.getElementById("modal").style.display = "block";
+      }
+      function back() {
+        document.getElementById("modal").style.display = "none";
+      }
+
+      function back_e() {
+        document.getElementById("account").style.display = "none";
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          var change = document.getElementById("modal");
+
+          if (change.style.display == "block") {
+            change.style.display = "none";
+          } else {
+            change.style.display = "block";
+          }
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "e") {
+          var change = document.getElementById("account");
+
+          if (change.style.display == "block") {
+            change.style.display = "none";
+          } else {
+            change.style.display = "block";
+          }
+        }
+      });
+    </script>
+    <div id="map">
+      <div class="info" id="readme" style="display: none">
+        <h2 class="info-title"><span id="info_title"></span></h2>
+        <div class="info-body" id="info_body"></div>
+      </div>
+
+      <div id="CofB">
+        <!----きもちわるい(?)---->
+        <div id="mojimon_spawn">
+          <div id="mojimonContainer1" class="mc" >
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn1"
+              class="ms"
+              onclick="open_battle(1)"
+            />
+          </div>
+          <div id="mojimonContainer2"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn2"
+              class="ms"
+              onclick="open_battle(2)"
+            />
+          </div>
+          <div id="mojimonContainer3"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn3"
+              class="ms"
+              onclick="open_battle(3)"  
+            />
+          </div>
+          <div id="mojimonContainer4"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn4"
+              class="ms"
+              onclick="open_battle(4)"
+            />
+          </div>
+          <div id="mojimonContainer5"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn5"
+              class="ms"
+              onclick="open_battle(5)"
+            />
+          </div>
+          <div id="mojimonContainer6"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn6"
+              class="ms"
+              onclick="open_battle(6)"
+            />
+          </div>
+          <div id="mojimonContainer7"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn7"
+              class="ms"
+              onclick="open_battle(7)"
+            />
+          </div>
+          <div id="mojimonContainer8"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn8"
+              class="ms"
+              onclick="open_battle(8)"
+            />
+          </div>
+          <div id="mojimonContainer9"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn9"
+              class="ms"
+              onclick="open_battle(9)"
+            />
+          </div>
+          <div id="mojimonContainer10"class="mc">
+            <img
+              style="top: 0px; left: 0px; width: 32px; height: 32px"
+              id="mojimon_spawn10"
+              class="ms"
+              onclick="open_battle(10)"
+            />
+          </div>
         </div>
+        <div id="skinContainer">
+          <img id="SKIN" src="skin.webp" style="width: 64px; height: 64px" />
+        </div>
+        <script>
+          var newX;
+          var newY;
+          window.addEventListener("resize", adjustSkinPosition);
+          window.addEventListener("load", adjustSkinPosition);
+          function adjustSkinPosition() {
+            var skin = document.getElementById("SKIN");
+            var container = document.getElementById("CofB");
 
-        <div id="CofB">
-          <!----きもちわるい(?)---->
-          <div id="mojimon_spawn">
-            <div id="mojimonContainer1"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn1"class="ms"></div>
-            <div id="mojimonContainer2"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn2"class="ms"></div>
-            <div id="mojimonContainer3"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn3"class="ms"></div>
-            <div id="mojimonContainer4"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn4"class="ms"></div>
-            <div id="mojimonContainer5"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn5"class="ms"></div>
-            <div id="mojimonContainer6"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn6"class="ms"></div>
-            <div id="mojimonContainer7"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn7"class="ms"></div>
-            <div id="mojimonContainer8"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn8"class="ms"></div>
-            <div id="mojimonContainer9"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn9"class="ms"></div>
-            <div id="mojimonContainer10"><img style="top:0px;left:0px;width:32px;height:32px" id="mojimon_spawn10"class="ms"></div>
-          </div>
-          <div id="skinContainer">
-              <img id="SKIN" src="skin.webp" style="width:64px; height:64px" />
-          </div>
-          <script>
-            var newX;
-            var newY;
-            window.addEventListener('resize', adjustSkinPosition);
-            window.addEventListener('load', adjustSkinPosition);
-            function adjustSkinPosition() {
-                var skin = document.getElementById('SKIN');
-                var container = document.getElementById('CofB');
+            var containerRect = container.getBoundingClientRect();
+            var skinRect = skin.getBoundingClientRect();
 
-                var containerRect = container.getBoundingClientRect();
-                var skinRect = skin.getBoundingClientRect();
+            newX = Math.floor(containerRect.width / 2 - skinRect.width / 2);
+            newY = Math.floor(containerRect.height / 2 - skinRect.height / 2);
 
-                newX = Math.floor((containerRect.width / 2) - (skinRect.width / 2));
-                newY = Math.floor((containerRect.height / 2) - (skinRect.height / 2));
-
-                skin.style.left = newX + 'px';
-                skin.style.top = newY + 'px';
-            }
-
-          </script>
-          <map name="image-map">
-            <img style="width:5120px; height:3840px" src="./map/CofB.png" usemap="#ImageMap" alt="" />
-            <map name="ImageMap">
-              <area shape="rect" onclick="open_trihiki();"class="tri"coords="1330, 1546, 2522, 2442" alt="" />
-              <area shape="rect" onclick="open_trihiki();"class="tri"coords="2694, 1554, 4108, 2506" alt="" />
-              <area shape="rect" onclick="open_trihiki();"class="tri"coords="2156, 654, 3500, 1290"alt="" />
-              <!--まだ追加しない予定のバトル
+            skin.style.left = newX + "px";
+            skin.style.top = newY + "px";
+          }
+        </script>
+        <map name="image-map">
+          <img
+            style="width: 5120px; height: 3840px"
+            src="./map/CofB.png"
+            usemap="#ImageMap"
+            alt=""
+          />
+          <map name="ImageMap">
+            <area
+              shape="rect"
+              onclick="open_trihiki();"
+              class="tri"
+              coords="1330, 1546, 2522, 2442"
+              alt=""
+            />
+            <area
+              shape="rect"
+              onclick="open_trihiki();"
+              class="tri"
+              coords="2694, 1554, 4108, 2506"
+              alt=""
+            />
+            <area
+              shape="rect"
+              onclick="open_trihiki();"
+              class="tri"
+              coords="2156, 654, 3500, 1290"
+              alt=""
+            />
+            <!--まだ追加しない予定のバトル
               <area shape="circle"onclick="open_battle();" class="moji"coords="434,514,304" alt="" />
               <area shape="circle"onclick="open_battle();" class="moji"coords="492,1486,252"  alt="" />
               <area shape="circle"onclick="open_battle();" class="moji"coords="347,1037,217"  alt="" />
@@ -824,194 +1023,224 @@
               <area shape="circle"onclick="open_battle();"class="moji"coords="2165,434,313"  alt="" />
               <area shape="circle"onclick="open_battle();" class="moji"coords="2313,1005,204" alt="" />
               -->
-            </map>
+            <area
+              shape="rect"
+              coords="698,1126,784,1150"
+              class="tri"
+              alt=""
+              onclick="alert('家がクリックされました。')"
+            />
+            <area
+              shape="rect"
+              coords="1445,533,1512,591"
+              class="tri"
+              alt=""
+              onclick="alert('BlueStar')"
+            />
           </map>
-          <script>
-            var icon = document.getElementById('SKIN');
-            var speed = 64;
-            var x = icon.offsetLeft;
-            var y = icon.offsetTop;
+        </map>
+        <script>
+          var icon = document.getElementById("SKIN");
+          var speed = 64;
+          var x = icon.offsetLeft;
+          var y = icon.offsetTop;
 
-            var keysPressed = {};
+          var keysPressed = {};
 
-            document.addEventListener('keydown', function(e) {
-                keysPressed[e.key] = true;
-                if (keysPressed['w']) { // Move up
-                    y -= speed;
-                    document.getElementById("walk").play();
-                }
-                if (keysPressed['s']) { // Move down
-                    y += speed;
-                    document.getElementById("walk").play();
-                }
-                if (keysPressed['a']) { // Move left
-                    x -= speed;
-                    document.getElementById("walk").play();
-                }
-                if (keysPressed['d']) { // Move right
-                    x += speed;
-                    document.getElementById("walk").play();
-                }
-
-                icon.style.left = x + 'px';
-                icon.style.top = y + 'px';
-            });
-
-            document.addEventListener('keyup', function(e) {
-                delete keysPressed[e.key];
-            });
-
-            function fadeIn(element) {
-                var op = 0.1; // initial opacity
-                element.style.display = 'block';
-                var timer = setInterval(function () {
-                    if (op >= 1){
-                        clearInterval(timer);
-                    }
-                    element.style.opacity = op;
-                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-                    op += op * 0.1;
-                }, 50);
+          document.addEventListener("keydown", function (e) {
+            keysPressed[e.key] = true;
+            if (keysPressed["w"]) {
+              // Move up
+              y -= speed;
+              document.getElementById("walk").play();
+            }
+            if (keysPressed["s"]) {
+              // Move down
+              y += speed;
+              document.getElementById("walk").play();
+            }
+            if (keysPressed["a"]) {
+              // Move left
+              x -= speed;
+              document.getElementById("walk").play();
+            }
+            if (keysPressed["d"]) {
+              // Move right
+              x += speed;
+              document.getElementById("walk").play();
             }
 
-            function fadeOut(element) {
-                var op = 1; // initial opacity
-                var timer = setInterval(function () {
-                    if (op <= 0.1){
-                        clearInterval(timer);
-                        element.style.display = 'none';
-                    }
-                    element.style.opacity = op;
-                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-                    op -= op * 0.1;
-                }, 10);
-            }
+            icon.style.left = x + "px";
+            icon.style.top = y + "px";
+          });
 
-            const map = {
-                view: function(){
-                    console.log("map = view ");
-                    var element = document.getElementById("map");
-                    fadeIn(element);
-                },
-                hide: function(){
-                    console.log("map = hide");
-                    var element = document.getElementById("map");
-                    fadeOut(element);
-                }
-            }
+          document.addEventListener("keyup", function (e) {
+            delete keysPressed[e.key];
+          });
 
-            function open_battle(){
-                var mapElement = document.getElementById("map");
-                fadeOut(mapElement);
-                var battleElement = document.getElementById("main_battle");
-                fadeIn(battleElement);
-            }
-
-            function open_trihiki(){
-                var mapElement = document.getElementById("map");
-                fadeOut(mapElement);
-                alert("取引を開始します。")
-                var trihikiElement = document.getElementById("trihiki");
-                fadeIn(trihikiElement);
-                torihiki_start();
-            }
-              console.log("info: Setup of the map is complete.");
-            let on_ima = 0;
-            let in_ima = 0;
-          </script>
-        </div>
-        <div id="dialogueOverlay">
-          <div id="dialogueMessage"></div>
-        </div>
-      </div>
-      <div id="trihiki" style="font-family:'mojimon','cf';">
-        <div id="dialog" class="glass" style="display:none;font-family:'mojimon','cf';">
-          <p id="dialogText" style="font-family:'mojimon','cf';"></p><!--仮-->
-          <button class="glassButton" id="close">閉じる</button>
-          <button class="glassButton" id="close" onclick="torihiki.money(on_ima,in_ima)">支払う</button>
-        </div>
-        <script id="">
-          let onmoney = auto;
-          const torihiki = {
-            shuffle: function (array) {
-              for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+          function fadeIn(element) {
+            var op = 0.1; // initial opacity
+            element.style.display = "block";
+            var timer = setInterval(function () {
+              if (op >= 1) {
+                clearInterval(timer);
               }
-              return array;
-            },
-            add: function (pass, syouhin) {
-              //　商人のビジュアル
-              let img_element = document.createElement("img");
-              img_element.src = "./img/murabito/" + pass + ".png";
-              img_element.alt = pass;
-              img_element.width = 200;
-              img_element.height = 200;
-              let content_area = document.getElementById("syounin_img");
-              content_area.appendChild(img_element);
-              //商品のビジュアル
-              let syouhin_elements = document.createElement("img");
-              syouhin_elements.src =
-                "./img/item/" + syouhin + ".png";
-              syouhin_elements.alt = syouhin;
-              syouhin_elements.width = 200;
-              syouhin_elements.height = 200;
-              let content_areas = document.getElementById("item_img");
-              content_areas.appendChild(syouhin_elements);
-            },
-            show: function (text) {
-              document.getElementById("dialogText").innerText = text;
-              document.getElementById("dialog").style.display = "block";
-            },
-            money: function (onmoney, inmoney) {
-              if (onmoney > inmoney) {
-                console.log(
-                  `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`,
-                );
-                torihiki.show(
-                  `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`,
-                );
-                if (onmoney < inmoney) {
-                  console.log(
-                    `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`,
-                  );
-                  console.error(
-                    `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`,
-                  );
-                  torihiki.show(
-                    `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nお金が足りません。`,
-                  );
-                }
+              element.style.opacity = op;
+              element.style.filter = "alpha(opacity=" + op * 100 + ")";
+              op += op * 0.1;
+            }, 50);
+          }
+
+          function fadeOut(element) {
+            var op = 1; // initial opacity
+            var timer = setInterval(function () {
+              if (op <= 0.1) {
+                clearInterval(timer);
+                element.style.display = "none";
               }
+              element.style.opacity = op;
+              element.style.filter = "alpha(opacity=" + op * 100 + ")";
+              op -= op * 0.1;
+            }, 10);
+          }
+
+          const map = {
+            view: function () {
+              console.log("map = view ");
+              var element = document.getElementById("map");
+              fadeIn(element);
+            },
+            hide: function () {
+              console.log("map = hide");
+              var element = document.getElementById("map");
+              fadeOut(element);
             },
           };
-          function torihiki_start(){
-          
-            
+
+          function open_battle(num) {
+            var mapElement = document.getElementById("map");
+            fadeOut(mapElement);
+            var battleElement = document.getElementById("main_battle");
+            fadeIn(battleElement);
+            getData(num)
+          }
+
+          function open_trihiki() {
+            var mapElement = document.getElementById("map");
+            fadeOut(mapElement);
+            alert("取引を開始します。");
+            var trihikiElement = document.getElementById("trihiki");
+            fadeIn(trihikiElement);
+            torihiki_start();
+          }
+          console.log("info: Setup of the map is complete.");
+          let on_ima = 0;
+          let in_ima = 0;
+        </script>
+      </div>
+      <div id="dialogueOverlay">
+        <div id="dialogueMessage"></div>
+      </div>
+    </div>
+    <div id="trihiki" style="font-family: &quot;mojimon&quot;, &quot;cf&quot;">
+      <div
+        id="dialog"
+        class="glass"
+        style="display: none; font-family: &quot;mojimon&quot;, &quot;cf&quot;"
+      >
+        <p
+          id="dialogText"
+          style="font-family: &quot;mojimon&quot;, &quot;cf&quot;"
+        ></p>
+        <!--仮-->
+        <button class="glassButton" id="close">閉じる</button>
+        <button
+          class="glassButton"
+          id="close"
+          onclick="torihiki.money(on_ima,in_ima)"
+        >
+          支払う
+        </button>
+      </div>
+      <script id="">
+        let onmoney = auto;
+        const torihiki = {
+          shuffle: function (array) {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+          },
+          add: function (pass, syouhin) {
+            //　商人のビジュアル
+            let img_element = document.createElement("img");
+            img_element.src = "./img/murabito/" + pass + ".png";
+            img_element.alt = pass;
+            img_element.width = 200;
+            img_element.height = 200;
+            let content_area = document.getElementById("syounin_img");
+            content_area.appendChild(img_element);
+            //商品のビジュアル
+            let syouhin_elements = document.createElement("img");
+            syouhin_elements.src = "./img/item/" + syouhin + ".png";
+            syouhin_elements.alt = syouhin;
+            syouhin_elements.width = 200;
+            syouhin_elements.height = 200;
+            let content_areas = document.getElementById("item_img");
+            content_areas.appendChild(syouhin_elements);
+          },
+          show: function (text) {
+            document.getElementById("dialogText").innerText = text;
+            document.getElementById("dialog").style.display = "block";
+          },
+          money: function (onmoney, inmoney) {
+            if (onmoney > inmoney) {
+              console.log(
+                `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`,
+              );
+              torihiki.show(
+                `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\n支払いできます。`,
+              );
+              if (onmoney < inmoney) {
+                console.log(
+                  `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`,
+                );
+                console.error(
+                  `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nError:3000\nお金が足りません。`,
+                );
+                torihiki.show(
+                  `商品情報\n今のお金:${onmoney}\n購入金額:${inmoney}\nお金が足りません。`,
+                );
+              }
+            }
+          },
+        };
+        function torihiki_start() {
           let trihiki_list = ["syounin", "nouka", "tyuuzouka", "ryousi"];
           let shuffle_score = torihiki.shuffle(trihiki_list);
           let syounin = shuffle_score[0];
           let item = {
-            鉄のインゴット: 30,//済
-            銅のインゴット: 500,//済
-            銀のインゴット: 1500,//済
-            金のインゴット: 12000,//済
-            白金のインゴット: 300,//済
-            トランジスタ: 700,//済
-            小麦の種: 5,//済
-            小麦: 150,//済
-            普通のパン: 60,//済
-            フランスパン: 70,//済
-            ベーグル: 80,//済
-            本棚: 1200,//済
-            コーヒーミル: 700,
-            コーヒー豆: 100,
-            ガラス: 20,
-            コップ: 35,
-            グラス: 10,
-            ひのきの机: 280,
-            ひのきの椅子: 180,
-            プラスチック: 10,
+            鉄のインゴット: 30, //済
+            銅のインゴット: 500, //済
+            銀のインゴット: 1500, //済
+            金のインゴット: 12000, //済
+            白金のインゴット: 300, //済
+            トランジスタ: 700, //済
+            小麦の種: 5, //済
+            小麦: 150, //済
+            普通のパン: 60, //済
+            フランスパン: 70, //済
+            ベーグル: 80, //済
+            本棚: 1200, //済
+            コーヒーミル: 700,//済
+            コーヒー豆: 100,//済
+            ガラス: 20,//済
+            コップ: 35,//済
+            グラス: 10,//済
+            ひのきの机: 280,//済
+            ひのきの椅子: 180,//済
+            プラスチック: 10,//済
             プラスチックのお椀: 50,
             ひのきのお椀: 70,
             鉄の歯車: 50,
@@ -1027,7 +1256,7 @@
             プラスチックの置き時計: 200,
             ボールペン: 10,
             シャープペンシル: 20,
-            にんじん: 1,//済
+            にんじん: 1, //済
             キャベツ: 1,
             たまねぎ: 1,
             コンソメ: 100,
@@ -1041,32 +1270,31 @@
             包み紙: 20,
             プリンター: 800000,
             コンバイン: 20000000,
-            プレゼントの箱: 600,//済
-            "鉛筆(2B)": 2,//済
-            "鉛筆(3B)": 2,//済
-            "鉛筆(4B)": 2,//済
-              瓶: 4//済
+            プレゼントの箱: 600, //済
+            "鉛筆(2B)": 2, //済
+            "鉛筆(3B)": 2, //済
+            "鉛筆(4B)": 2, //済
+            瓶: 4, //済
           };
           let keys = Object.keys(item);
           let values = Object.values(item);
           let random = Math.floor(Math.random() * keys.length);
           let item_syouhin = keys[random];
-          torihiki.add(syounin,item_syouhin);
+          torihiki.add(syounin, item_syouhin);
           let money = values[random];
           //仮
           let inmoney = 99999999999;
           let money_item = 9999999999;
-          let kingaku = document.createElement('p');
-            onmoney=inmoney;
-            inmoney=money_item;
-            torihiki.show(`${item_syouhin}を購入しますか？\n${money}です`);
+          let kingaku = document.createElement("p");
+          onmoney = inmoney;
+          inmoney = money_item;
+          torihiki.show(`${item_syouhin}を購入しますか？\n${money}です`);
           kingaku.innerHTML = `金額:${money}`;
           document.body.appendChild(kingaku);
-          }
-        </script>
-        <div id="syounin_img"></div>
-        <div id="item_img"></div>
-      </div>
+        }
+      </script>
+      <div id="syounin_img"></div>
+      <div id="item_img"></div>
     </div>
   </body>
 </html>
