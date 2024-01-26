@@ -1,20 +1,24 @@
 @font-face {
 	font-family: 'mojimon';
+	font-display:"swap";
 	src: url('font/KleeOne-Regular.ttf');
 }
 
 @font-face{
 	font-family:'Noto Sans JP';
+	font-display:"swap";
 	src: url('font/NotoSansJP-Regular.ttf');
 }
 
 @font-face{
 	font-family:'kaisei';
+	font-display:"swap";
 	src: url('font/KaiseiOpti-Regular.ttf');
 }
 
 @font-face{
         font-family:'MP';
+	font-display:"swap";
         src: url('font/MPLUS1p-Thin.ttf');
 }
 
