@@ -84,12 +84,12 @@ function service() {
 
   app.use(bodyParser.json());
 
-  app.use(express.static("data/public"));
+  app.use(express.static("data/"));
 
-  app.use(express.static("data/public"));
+  app.use(express.static("data/"));
 
   app.get("/", function (request, response) {
-    response.sendFile(__dirname + "/views/index.html"); //
+    response.sendFile(__dirname + "/data/index.html"); //
   });
 
   app.get("/get", function (request, response) {
@@ -118,28 +118,28 @@ function service() {
 
   app.post("/", function (request, response) {
     console.log(request.body);
-    updateOrAppendToFile(request.body, "./偽物data.json", request, response);
+    updateOrAppendToFile(request.body, "./data.json", request, response);
   });
 
   //404.500エラーに対応する
   app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/views/erorr/404.html");
+    res.status(404).sendFile(__dirname + "/data/404.html");
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).sendFile(__dirname + "/views/erorr/500.html");
+    res.status(500).sendFile(__dirname + "/data/500.html");
   });
 
   app.use((req, res, next) => {
-    res.status(409).sendFile(__dirname + "/views/erorr/409.html");
+    res.status(409).sendFile(__dirname + "/data/409.html");
   });
 
   app.use((req, res, next) => {
-    res.status(502).sendFile(__dirname + "/views/erorr/502.html");
+    res.status(502).sendFile(__dirname + "/data/502.html");
   });
   
   //サーバーの起動
-  var listener = app.listen(3000, function () {
+  var listener = app.listen(1301, function () {
     console.log(
       "もじもんのサーバーは、" +
         listener.address().port +
