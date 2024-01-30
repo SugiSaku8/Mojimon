@@ -386,7 +386,7 @@ function check(mojimon) {
         kakusuu:7,
         busyu:7,
         jukugo:"赤手",
-        yomi:"赤手",
+        yomi:"せきしゅ",
       }
     case "林":
       return {
@@ -425,7 +425,7 @@ function check(mojimon) {
         name: "文",
         kakusuu:4,
         busyu:4,
-        jukugo:"大文字",
+        jukugo:"大文字（５文字指定）",
         yomi:"だいもんじ",
       }
     case "立":

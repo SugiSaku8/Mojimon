@@ -6,7 +6,7 @@ function sleep(ms) {
 function save_send(senddata) {}
 function save(data) {
   let status = get.status(
-    "https://mozimon.studycounselingroom.repl.co/get",
+    "https://mojimon.onrender.com/get",
     4000,
   );
   //getサーバーに対して、4秒限定で接続テスト
