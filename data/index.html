@@ -1399,23 +1399,28 @@ style="text-align:center; display:none">
           Login = localStorage.getItem("user");
         }
       }
-      async function GetsaveData(Name) {
-        let savedatae = await fetch("/save_get/" + Name + ".moji");
-        let GetSaveData = await savedatae.json();
-        console.log(GetSaveData);
-        try {
-          exp = GetSaveData.data.exp;
-          pl_nokori = GetSaveData.data.pl_nokori;
-          tairiku = GetSaveData.data.tairiku;
-          x = GetSaveData.data.x;
-          y = GetSaveData.data.y;
-          box_mojimon = GetSaveData.data.mojimon;
-          omo = GetSaveData.data.omo
-          console.info("データを同期しました。");
-        } catch (error) {
-          console.error("データの同期中にエラーが発生しました。\n" + error);
-        }
-      }
+async function GetsaveData(Name) {
+    // Retrieve the save_data JSON string from local storage
+    let save_data_string = localStorage.getItem("save_data");
+    
+    // Convert the JSON string back to an object
+    let GetSaveData = JSON.parse(save_data_string);
+    
+    console.log(GetSaveData);
+    try {
+      exp = GetSaveData.exp;
+      pl_nokori = GetSaveData.pl_nokori;
+      tairiku = GetSaveData.tairiku;
+      x = GetSaveData.xy[0]; // Assuming xy is an array
+      y = GetSaveData.xy[1]; // Assuming xy is an array
+      box_mojimon = GetSaveData.mojimon;
+      omo = GetSaveData.item; // Assuming item is the correct property name
+      console.info("データを同期しました。");
+    } catch (error) {
+      console.error("データの同期中にエラーが発生しました。\n" + error);
+    }
+}
+
       window.onload = function(){
         GetsaveData(Login);
       }
@@ -1451,10 +1456,7 @@ style="text-align:center; display:none">
             document.getElementById("battle").play();
             document.getElementById("hajimari").pause();
             getData();
-            localStorage.setItem(
-              "status",
-              JSON.stringify({ value: true, timestamp: timestamp }),
-            );
+            localStorage.setItem("status",JSON.stringify({ value: true, timestamp: timestamp }));
             localStorage.setItem("user", Login);
             spawn_mojimon();
             document.body.style.backgroundColor = "white";
