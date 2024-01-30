@@ -51,7 +51,10 @@ var jibun_hp;
 var jibun_hp2;
 var jibun_def;
 var jibun_atk;
-
+function battle_finish() {
+  document.all.battle.style.display = "none";
+  document.all.Cofb.style.display = "block";
+}
 function reset_hensuutati() {
 teki_hp = +document.getElementById("teki_hp").innerHTML;
 teki_hp2 = teki_hp
@@ -77,6 +80,7 @@ const waza = {
     var change = function () {
       if(teki_hp == 0) {
         document.getElementById("mes").innerHTML = `${teki_result.name}をたおした！`
+        battle_finish()
       } else {
       document.getElementById("mes").innerHTML = `${teki_result.name}に${
         teki_hp2 - teki_hp

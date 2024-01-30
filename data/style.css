@@ -9,7 +9,11 @@
         font-display:"swap";
 	src: url('font/NotoSansJP-Regular.ttf');
 }
-
+@font-face{
+        font-family:'number';
+        font-display:"swap";
+        src: url('font/ZenKakuGothicNew-Light.ttf');
+}
 @font-face{
 	font-family:'kaisei';
         font-display:"swap";
@@ -50,6 +54,35 @@
 }
 
 
+.inventory {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates a 5x5 grid */
+    grid-auto-rows: 1fr; /* Creates rows that fit the content */
+    gap: 5px; /* Adjust as needed */
+}
+
+#cell {
+    border: 1px solid black; /* Adjust as needed */
+    padding: 10px; /* Adjust as needed */
+}
+
+.inventory img{
+        width:30%;
+        height:30%;
+}
+
+#health-bar {
+        display:none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.health-icon {
+    width: 25px; /* アイコンのサイズ */
+    height: auto;
+    margin-right: 5px; /* アイコン間の間隔 */
+}
 
 body {
         user-select: none;
@@ -481,7 +514,7 @@ label.error {
 }
 
 .modal {
- font-family: 'MP'; 
+ font-family: 'number'; 
  display:none;
  position: fixed;
  z-index: 1;
@@ -494,7 +527,7 @@ label.error {
 }
 
 .popup {
- font-family: 'MP'; 
+ font-family: 'number'; 
  position: absolute;
  z-index: 1;
  left: 50%;
@@ -507,14 +540,14 @@ label.error {
 }
 
 .popup h2{
-         font-family: 'MP'; 
+         font-family: 'number'; 
         font-color:#000000;
         font-size:50px;
         background-color:#cccfff;
 }
 
 .popup p{
-         font-family: 'MP'; 
+         font-family: 'number'; 
         font-color:#000000;
         font-size:50px;
         /*background-color:#cccfff;*/
