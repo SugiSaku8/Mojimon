@@ -1202,7 +1202,7 @@ style="text-align:center; display:none">
               });
           });
         })();
-        function save() {
+        function save_server() {
           let savedata = {
             version: "1.0 24c1",
             user: Login,
@@ -1237,6 +1237,26 @@ style="text-align:center; display:none">
               //console.error("クライアントエラー:"+error);
             });
         }
+        function save(){
+    let save_data={
+        version:"1.0 24c1",
+        user:Login,
+        exp:exp,
+        pl_nokori:pl_nokori,
+        tairiku:01,
+        xy:xy,
+        item:Getitem,
+        mojimon:Mojimon_list,
+        xp:xp,
+    }
+
+    // Convert save_data to a JSON string
+    let save_data_string = JSON.stringify(save_data);
+
+    // Save the JSON string to local storage
+    localStorage.setItem("save_data", save_data_string);
+}
+
         //保存関数はこれ
         function mojimon_shuffle() {
           for (i = mojimon_array.length; 1 < i; i--) {
