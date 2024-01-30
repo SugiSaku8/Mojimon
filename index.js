@@ -84,18 +84,18 @@ function service() {
 
   app.use(bodyParser.json());
 
-  app.use(express.static("data/"));
+  app.use(express.static("data/public"));
 
-  app.use(express.static("data/"));
+  app.use(express.static("data/public"));
 
   app.get("/", function (request, response) {
-    response.sendFile(__dirname + "/data/index.html"); //
+    response.sendFile(__dirname + "/views/index.html"); //
   });
 
   app.get("/get", function (request, response) {
     const name = request.query.name;
     const password = request.query.password;
-    fs.readFile("./data.json", (err, data) => {
+    fs.readFile("./偽物data.json", (err, data) => {
       if (err) throw err;
       if (data.length > 0) {
         let jsonData = JSON.parse(data);
@@ -123,17 +123,21 @@ function service() {
 
   //404.500エラーに対応する
   app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/data/404.html");
+    res.status(404).sendFile(__dirname + "/views/erorr/404.html");
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).sendFile(__dirname + "/data/500.html");
+    res.status(500).sendFile(__dirname + "/views/erorr/500.html");
   });
 
   app.use((req, res, next) => {
-    res.status(409).sendFile(__dirname + "/data/409.html");
+    res.status(409).sendFile(__dirname + "/views/erorr/409.html");
   });
 
+  app.use((req, res, next) => {
+    res.status(502).sendFile(__dirname + "/views/erorr/502.html");
+  });
+  
   //サーバーの起動
   var listener = app.listen(3000, function () {
     console.log(

@@ -32,7 +32,7 @@ function update(username, level, mojimon, item) {
   const andeldata = {
     user: username,
     level: level,
-    mojimon: mojimon,
+    mojimon: box_mojimon,
     item: item,
     savetime: Time,
   };
