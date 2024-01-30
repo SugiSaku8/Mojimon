@@ -43,31 +43,46 @@ const get = {
   },
 };
 
+var teki_hp;
+var teki_hp2;
+var teki_def;
+var teki_atk;
+var jibun_hp;
+var jibun_hp2;
+var jibun_def;
+var jibun_atk;
+
+function reset_hensuutati() {
+teki_hp = +document.getElementById("teki_hp").innerHTML;
+teki_hp2 = teki_hp
+teki_def = +document.getElementById("teki_B").innerHTML;
+teki_atk = +document.getElementById("teki_A").innerHTML;
+jibun_hp= +document.getElementById("jibun_hp").innerHTML;
+jibun_def= +document.getElementById("jibun_B").innerHTML;
+jibun_atk= +document.getElementById("jibun_A").innerHTML;
+}
 const waza = {
-  taiatari: async function (
-    teki_hp,
-    teki_hp2,
-    teki_atk,
-    teki_def,
-    jibun_hp,
-    jibun_hp2,
-    jibun_atk,
-    jibun_def,
-  ) {
+  taiatari: async function () {
     var teki_hp_max = document.getElementById("teki_hp_max").innerHTML;
     var jibun_hp_max = document.getElementById("jibun_hp_max").innerHTML;
     document.getElementById("mes").innerHTML =
       `${jibun_result.name}は${teki_result.name}にたいあたりをした！`;
-    teki_hp2 = teki_h;
+    teki_hp2 = teki_hp;
     teki_hp = Math.floor(teki_hp - (10 + jibun_atk - teki_def) / 20 - 10);
     if (teki_hp > teki_hp_max) {
       teki_hp = teki_hp_max;
+    } else if(teki_hp < 0) {
+      teki_hp = 0;
     }
     var change = function () {
+      if(teki_hp == 0) {
+        document.getElementById("mes").innerHTML = `${teki_result.name}をたおした！`
+      } else {
       document.getElementById("mes").innerHTML = `${teki_result.name}に${
         teki_hp2 - teki_hp
       }ダメージ！`;
       teki_hp2 = teki_hp;
+      }
     };
     document.getElementById("teki_hp").innerHTML = teki_hp;
     await sleep(3000);

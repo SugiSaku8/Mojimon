@@ -7,98 +7,130 @@ function check(mojimon) {
       return {
         name: "漢字",
         kakusuu:その漢字の画数,
-        busyu:部首だけの画数
+        busyu:部首,
+        jukugo:熟語をさがせ！
+        yomi:熟語の読み
       }
     */
     case "火":
       return { 
         name:"火",
         kakusuu:4,
-        busyu:4
+        busyu:4,
+        jukugo:"火中",
+        yomi:"かちゅう"
       }
     case "水":
       return {
         name:"水",
         kakusuu:4,
-        busyu:4
+        busyu:4,
+        jukugo:"水中",
+        yomi:"すいちゅう"
       }
     case "山":
       return {
         name:"山",
         kakusuu:3,
-        busyu:3
+        busyu:3,
+        jukugo:"山中",
+        yomi:"さんちゅう"
       }
     case "石":
       return {
         name:"石",
         kakusuu:5,
-        busyu:5
+        busyu:5,
+        jukugo:"石火",
+        yomi:"せっか"
       }
     case "金":
       return {
         name: "金",
         kakusuu:8,
-        busyu:8
+        busyu:8,
+        jukugo:"合金",
+        yomi:"ごうきん"
       }
     case "土":
       return { 
         name:"土",
         kakusuu:3,
-        busyu:3
+        busyu:3,
+        jukugo:"出土",
+        yomi:"しゅつど"
       }
     case "月":
       return {
         name: "月",
         kakusuu:4,
-        busyu:4
+        busyu:4,
+        jukugo:"水月",
+        yomi:"すいげつ"
       }
     case "日":
       return {
         name: "日",
         kakusuu:4,
-        busyu:4
+        busyu:4,
+        jukugo:"中日",
+        yomi:"ちゅうにち"
       }
     case "木":
       return {
         name: "木",
         kakusuu:4,
-        busyu:4
+        busyu:4,
+        jukugo:"土木",
+        yomi:"どぼく"
       }
     case "雨":
       return {
         name: "雨",
         kakusuu:8,
-        busyu:8
+        busyu:8,
+        jukugo:"雨月",
+        yomi:"うげつ"
       }
     case "川":
       return {
         name: "川",
         kakusuu:3,
-        busyu:3
+        busyu:3,
+        jukugo:"川上",
+        yomi:"かわかみ"
       }
     case "夕":
       return {
         name: "夕",
         kakusuu:3,
-        busyu:3
+        busyu:3,
+        jukugo:"夕日",
+        yomi:"ゆうひ"
       }
     case "花":
       return {
         name: "花",
         kakusuu:7,
-        busyu:3
+        busyu:3,
+        jukugo:"花火",
+        yomi:"はなび"
       }
     case "草":
       return {
         name: "草",
         kakusuu:9,
-        busyu:3
+        busyu:3,
+        jukugo:"水草",
+        yomi:"みずくさ"
       }
     case "右":
       return {
         name: "右",
         kakusuu:5,
-        busyu:3
+        busyu:3,
+        jukugo:"右手",
+        yomi:"みぎて"
       }
     case "左":
       return {

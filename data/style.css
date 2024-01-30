@@ -50,11 +50,58 @@
 }
 
 
+
 body {
         user-select: none;
 	font-family: 'mojimon','cf';
         
 }
+#joystick {
+ display:none;
+ position: fixed;
+ right: 20px;
+ bottom: 20px;
+ width: 100px;
+ height: 100px;
+ border: 1px solid #000;
+ border-radius: 50%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(255, 255, 255, 0.5);
+ padding: 10px;
+ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.arrow {
+ width: 0;
+ height: 0;
+ border-left: 20px solid transparent;
+ border-right: 20px solid transparent;
+}
+
+#arrow-up {
+ border-bottom: 20px solid #f00;
+}
+
+#arrow-right {
+ border-top: 20px solid #0f0;
+ transform: rotate(90deg);
+}
+
+#arrow-down {
+ border-top: 20px solid #00f;
+ transform: rotate(180deg);
+}
+
+#arrow-left {
+ border-top: 20px solid #f0f;
+ transform: rotate(-90deg);
+}
+
+
+
+
 
 #account_touroku_form{
         background-image: url(/img/back.jpg);
