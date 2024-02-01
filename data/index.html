@@ -7,11 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta
-      name="keywords"
-      content="MOJIMON,Mojimon,もじもん,文字もん,Carnation,Game,SCR,scrgame,mojimon,mozimon"
-    />
-    <meta name="google-site-verification" content="AdUNRrvXZEEjF3034mcZ6iEr-P8iUjqhq8zd5NSJeL4" />
+
     <title>もじもん</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
@@ -106,8 +102,9 @@ style="text-align:center; display:none">
       <button onclick="modoru()" id="modoru_button" class="mini_button">
         もどる
       </button>
+       <h3 id="mes"></h3>
     </div>
-    <h3 id="mes"></h3>
+
     <script src="waza.js"></script>
     <div id="start_window">
       <div id="title_window">
@@ -338,6 +335,15 @@ style="text-align:center; display:none">
         <script>
           var newX;
           var newY;
+          function check_mojimon_tairyoku() {
+            
+              document.getElementById("main_battle").style.display = "none";
+              map.view();
+              fadeIn("map")
+            document.getElementById("mes").innerHTML = ""
+            modoru()
+          }
+        
           window.addEventListener("resize", adjustSkinPosition);
           window.addEventListener("load", adjustSkinPosition);
           function adjustSkinPosition() {
@@ -1129,6 +1135,7 @@ style="text-align:center; display:none">
                   console.log([teki_mojimon_syutoku, teki_mojimon_kakou]);
                   teki_mojimon = decodeURI(teki_mojimon_kakou);
                   box_mojimon.push(teki_mojimon)
+                  check_mojimon_tairyoku();
                 } else {
                   alert("つかまえるのに失敗したよ！")
                 }
@@ -1244,10 +1251,10 @@ style="text-align:center; display:none">
         exp:exp,
         pl_nokori:pl_nokori,
         tairiku:01,
-        xy:xy,
-        item:Getitem,
-        mojimon:Mojimon_list,
-        xp:xp,
+        xy:[x,y],
+        //item:Getitem,まだできていない！
+        mojimon:box_mojimon,
+        //xp:xp,
     }
 
     // Convert save_data to a JSON string

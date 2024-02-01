@@ -80,7 +80,7 @@ const waza = {
     var change = function () {
       if(teki_hp == 0) {
         document.getElementById("mes").innerHTML = `${teki_result.name}をたおした！`
-        battle_finish()
+        check_mojimon_tairyoku()
       } else {
       document.getElementById("mes").innerHTML = `${teki_result.name}に${
         teki_hp2 - teki_hp
