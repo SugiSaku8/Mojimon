@@ -1,44 +1,56 @@
 {
-  "name": "nodejs",
+  "name": "MojimonInstallEdition",
   "version": "1.0.0",
-  "description": "",
+  "description": "The Install Edition Of Mojimon",
   "main": "index.js",
+  "author": "CarnationStudio",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron-forge start",
+    "build": "electron-builder",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "build": {
+    "appId": "mojimon.win",
+    "directories": {
+      "output": "release/"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "node_modules/**/*",
+    "package.json"
+  ],
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "electron": "^28.2.1"
+  },
   "dependencies": {
-    "@babel/types": "^7.23.6",
-    "@types/lodash": "^4.14.202",
-    "@types/node": "^18.0.6",
-    "babel-plugin-lodash": "^3.3.4",
-    "babel-plugin-transform-imports": "^2.0.0",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
-    "connect-flash": "^0.1.1",
-    "ejs": "^3.1.9",
-    "eslint-plugin-you-dont-need-lodash-underscore": "^6.13.0",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "grunt": "^1.6.1",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.defaults": "^4.2.0",
-    "lodash.get": "^4.4.2",
-    "lodash.isequal": "^4.5.0",
-    "lodash.isplainobject": "^4.0.6",
-    "lodash.memoize": "^4.1.2",
-    "lodash.merge": "^4.6.2",
-    "lodash.throttle": "^4.1.1",
-    "lodash.uniq": "^4.5.0",
-    "message-view-js": "^1.0.2",
-    "node-fetch": "^3.2.6",
-    "rambda": "^8.6.0",
-    "set-value": "^4.1.0"
+    "@electron-forge/maker-deb": "^7.2.0",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {
+            "options": {
+              "bin": "MojimonInstallEdition",
+              "maintainer": "Mojimon.scr",
+              "homepage": "https://github.com/SugiSaku8/Mojimon"
+            }
+          }
+        },
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "platforms": [
+            "win32"
+          ]
+        }
+      ]
+    }
   }
 }
