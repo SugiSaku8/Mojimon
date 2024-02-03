@@ -1,4 +1,5 @@
 const express = require("express");
+ const { apps, BrowserWindow } = require('electron');
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -156,5 +157,33 @@ function service() {
     console.log("|                                               ");
   });
 }
+function App(){
+  function createWindow() {
+    const win = new BrowserWindow({
+      width: 800,
+      height: 600,
+      webPreferences: {
+        nodeIntegration: true,
+      },
+    });
 
+    win.loadURL('http://localhost:3000');
+  }
+
+  apps.whenReady().then(createWindow);
+
+  apps.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
+
+  apps.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+
+}
 service();
+App();
