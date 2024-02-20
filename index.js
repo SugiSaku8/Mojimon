@@ -508,7 +508,7 @@ function service() {
   });
 
   app.use((req, res, next) => {
-    res.status(502).sendFile(__dirname + "/viewsr/502.html");
+    res.status(502).sendFile(__dirname + "/data/502.html");
   });
 
   //サーバーの起動
