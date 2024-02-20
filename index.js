@@ -54,7 +54,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 function UploadData() {
-  fs.readFile("./偽物data.json", "utf8", (err, data) => {
+  fs.readFile("./data.json", "utf8", (err, data) => {
     if (err) {
       res.status(500).send("Error reading file");
       return;
@@ -376,12 +376,12 @@ function service() {
 
   app.use(bodyParser.json());
 
-  app.use(express.static("data/public"));
+  app.use(express.static("data"));
 
-  app.use(express.static("data/public"));
+  app.use(express.static("data"));
 
   app.get("/", function (request, response) {
-    response.sendFile(__dirname + "/views/index.html"); //
+    response.sendFile(__dirname + "/data/index.html"); //
   });
 
   app.get("/get", function (request, response) {
@@ -410,7 +410,7 @@ function service() {
 
   app.post("/", function (request, response) {
     console.log(request.body);
-    updateOrAppendToFile(request.body, "./偽物data.json", request, response);
+    updateOrAppendToFile(request.body, "./data.json", request, response);
   });
 
   var usernames = [];
@@ -496,15 +496,15 @@ function service() {
 
   //404.500エラーに対応する
   app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/views/erorr/404.html");
+    res.status(404).sendFile(__dirname + "/data/erorr/404.html");
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).sendFile(__dirname + "/views/erorr/500.html");
+    res.status(500).sendFile(__dirname + "/data/erorr/500.html");
   });
 
   app.use((req, res, next) => {
-    res.status(409).sendFile(__dirname + "/views/erorr/409.html");
+    res.status(409).sendFile(__dirname + "/data/erorr/409.html");
   });
 
   app.use((req, res, next) => {
