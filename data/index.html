@@ -1227,7 +1227,7 @@
     </div>
     <script info="mainscript">
       let url =
-        "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.repl.co/";
+        "https://mojimon.onrender.com/";
       let change;
       let Login;
       {
@@ -1838,7 +1838,7 @@
       async function get_save_data(username) {
         console.log("./n/d/" + username + ".moji");
         fetch(
-          `https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/get_save_data/${username}`,
+          `https://mojimon.onrender.com/get_save_data/${username}`,
           {
             method: "GET",
             headers: {
@@ -1901,7 +1901,7 @@
         let LivePositions = { name, x, y, status };
         try {
           let response = await fetch(
-            "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/sendxy",
+            "https://mojimon.onrender.com/sendxy",
             {
               mode: "cors", //CORSがでないのも怪しい
               method: "POST",
@@ -1986,7 +1986,7 @@
           // Skip null entries
           if (UserList === null) return;
           fetch(
-            `https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/positions/${UserList}`,
+            `https://mojimon.onrender.com/positions/${UserList}`,
             {
               method: "GET",
               headers: {
@@ -2024,7 +2024,7 @@
 
       function GetSignUpUserName() {
         fetch(
-          "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/names",
+          "https://mojimon.onrender.com/names",
         )
           .then((response) => {
             if (!response.ok) {
@@ -2090,7 +2090,7 @@
       async function fetchChatHistory() {
         try {
           const response = await fetch(
-            "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev//chathistory",
+            "https://mojimon.onrender.com/chathistory",
           );
           const messages = await response.json();
 
@@ -2114,6 +2114,7 @@
         event.preventDefault();
         fetch("/sendmessage", {
           method: "POST",
+           mode: "no-cors",
           headers: {
             "Content-Type": "application/json",
           },
