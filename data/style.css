@@ -53,6 +53,286 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#other_user{
+  float: right;
+}
+#me_user{
+  float: left;
+}
+
+#zukan {
+  display: none;
+}
+
+.overlay {
+    position: fixed;
+    top:  0;
+    left:  0;
+    width:  100%;
+    height:  100%;
+    background-color: rgba(0,  0,  0,  0.5); /*  黒色の半透明背景 */
+    z-index:  9999; /*  他の要素の上に表示 */
+}
+
+
+#chat_app {
+  position: fixed;
+  display:none;
+  top:  0;
+  right:  0;
+  width:  500px;
+  margin:  50px auto;
+  background-color: rgba(255,  255,  255,  0.8);
+  padding:  20px;
+  border-radius:  10px;
+  box-shadow:  0  10px  20px rgba(0,  0,  0,  0.1);
+  z-index:  200; /* Ensure the chat app is above other elements */
+}
+
+#chat_header {
+    display: flex;
+    align-items: center;
+    margin-bottom:  20px;
+}
+
+#user_avatar {
+    width:  40px;
+    height:  40px;
+    border-radius:  50%;
+    margin-right:  10px;
+}
+
+#user_name {
+    font-size:  18px;
+    font-weight: bold;
+}
+
+#message_list {
+    list-style-type: none;
+    padding:  0;
+    overflow-y: scroll;
+    height:  300px;
+    margin-bottom:  20px;
+}
+
+.message_bubble {
+    padding:  10px;
+    margin-bottom:  10px;
+    border-radius:  15px;
+    clear: both;
+}
+
+.user_message {
+    background-color: #13178E;
+    color: white;
+    float: left;
+}
+
+.friend_message {
+    background-color: #f0f0f0;
+    color: black;
+    float: right;
+}
+
+#message_form {
+    display: flex;
+    justify-content: space-between;
+}
+
+#message_input {
+    flex-grow:  1;
+    margin-right:  10px;
+    padding:  5px;
+    border-radius:  5px;
+    border:  1px solid #ccc;
+}
+
+#message_form button {
+    padding:  5px  10px;
+    border: none;
+    border-radius:  5px;
+    background-color: #13178E;
+    color: white;
+    cursor: pointer;
+}
+
+#message_form button:hover {
+    background-color: #333;
+}
+
+
+#mojimon-zukan {
+    position: absolute;
+    top:  50%;
+    left:  50%;
+    transform: translate(-50%, -50%); /*  中央に配置 */
+    width:  80%; /*  画面の幅の80% */
+    height:  80%; /*  画面の高さの80% */
+    background-color: #dcffff; /*  指定された色 */
+    border-radius:  10px; /*  角を少し丸める */
+    padding:  20px; /*  内側の余白 */
+    box-sizing: border-box; /*  ボックスサイズの計算方法 */
+    z-index:  10000; /*  オーバーレイよりも上に表示 */
+}
+
+#message-input {
+  flex-grow:  1;
+  margin-right:  10px;
+}
+
+#customDialog {
+  position: fixed;
+  top:  50%;
+  left:  50%;
+  transform: translate(-50%, -50%);
+  width:  500px;
+  height: auto;
+  padding:  20px;
+  background-color: rgba(255,  255,  255,  0.45);
+  border-radius:  10px;
+  border:  1px solid rgba(255,  255,  255,  0.25);
+  box-shadow:  0  0  10px  1px rgba(0,  0,  0,  0.25);
+  backdrop-filter: blur(15px);
+  z-index:  1000;
+}
+
+#dialogTitle {
+  margin:  0;
+  font-size:  1.5em;
+  font-weight: bold;
+}
+
+#dialogContent {
+  margin:  1em  0;
+  font-size:  1em;
+}
+
+#dialogCloseButton {
+  float: right;
+  margin-top:  1em;
+  padding:  0.5em  1em;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size:  1em;
+}
+
+#dialog-overlay {
+  position: fixed;
+  top:  0;
+  left:  0;
+  width:  100%;
+  height:  100%;
+  background: rgba(0,  0,  0,  0.5);
+  backdrop-filter: blur(5px);
+  z-index:  999;
+}
+
+
+.play{
+  display:none;
+}
+/*  ダイアログのオーバーレイ */
+.setup_dia .setup_dia-overlay {
+  position: fixed;
+  top:  0;
+  left:  0;
+  right:  0;
+  bottom:  0;
+  background-color: rgba(0,  0,  0,  0.5);
+  z-index:  10;
+}
+
+/*  ダイアログ本体 */
+.setup_dia .setup_dialog {
+  position: fixed;
+  top:  50%;
+  left:  50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255,  255,  255,  0.1); /* 背景色 */
+  border:  1px solid rgba(255,  255,  255,  0.4); /*  ボーダー */
+  border-radius:  15px;
+  padding:  20px;
+  width:  80%;
+  max-width:  400px;
+  z-index:  100;
+  backdrop-filter: blur(10px); /* ぼかしエフェクト */
+  box-shadow:  0  5px  20px rgba(0,  0,  0,  0.3); /*  影 */
+}
+
+/*  ダイアログ内の要素 */
+.setup_dia .setup_dialog h2 {
+  margin:  0  0  10px;
+  font-size:  1.5rem;
+  color: white;
+}
+
+.setup_dia .setup_dialog p {
+  color: white;
+  line-height:  1.5;
+}
+
+.setup_dia .setup_dialog button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding:  10px  20px;
+  cursor: pointer;
+  border-radius:  5px;
+  transition: background-color  0.3s ease;
+}
+
+.setup_dia .setup_dialog button:hover {
+  background-color: #0056b3;
+}
+
+.User_contena {
+  display: block;
+  position: relative;
+  width:  120px; /* Set the width to match the image size */
+  height: 120px; /* Set the height to match the image size */
+}
+
+.User_contena img {
+  width:  64px; /* The image will fill the container */
+  height: 64px; /* The height will adjust automatically to maintain aspect ratio */
+}
+
+.User_contena .text {
+  width:32px;
+  height:16px;
+  position: absolute;
+  top:  50%; /* Vertical centering */
+  left:  50%; /* Horizontal centering */
+  transform: translate(-50%, -50%); /* Center the text */
+  opacity:  0.8;
+  z-index:  1; /* Ensures text appears above the image */
+  background-color: rgba(255,  255,  255,  0.5); /* Semi-transparent white background */
+  color: black; /* Initial text color */
+  padding:  10px; /* Optional padding */
+  width: calc(100% -  20px); /* Width minus padding */
+  max-width:  100%; /* Prevent overflow */
+  text-align: center; /* Center the text horizontally */
+}
+
+
+/* Glass UI effect */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .User_contena .text {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Hover effect to reverse colors */
+.User_contena:hover .text {
+  opacity:  1;
+  background-color: rgba(0,  0,  0,  0.5); /* Darker background on hover */
+  color: white; /* Text color on hover */
+  transition: background-color  0.3s ease, color  0.3s ease; /* Smooth transition */
+}
+
+
 
 .inventory {
     display: grid;
@@ -162,6 +442,9 @@ body {
 }
 
 .setup{
+         background-image: url(/img/back.jpg);
+        background-size: cover;
+  background-position: top center;
         text-align: center;
         margin: 0 auto;
         display: inline-block;
@@ -301,7 +584,12 @@ area{
 .green{
   background-color:green
 }
-
+.{
+  background-color:green;
+}
+.greenbtn :hover{
+        background-color:#00ff00;
+}
 html {
 	font-family: 'mojimon';
 }
@@ -321,6 +609,12 @@ button {
 }
 
 #start_window {
+  top:  0;
+  right:  0;
+  bottom:  0;
+  left:  0;
+  width:  100%;
+  height:  100%;
 	top:0;
 	/*background-color: #ffffff;*/
         background-image: url(/img/back.jpg);
@@ -328,10 +622,20 @@ button {
         background-position: top center;
 	z-index:9999999999;
 	text-align: center;
+  margin: 0 auto;
+  display: inline-block;
 }
-
+#title_window + p {
+  margin-top:  0;
+  padding-top:  0;
+}
+#start_window button {
+  margin-top:  0;
+  padding-top:  0;
+}
 #title_window{
-	/* padding: 20px;  */
+  width:480px;
+  height:350px;
 	margin:0 auto;
 	text-align: center;
 	display: inline-block;
@@ -350,7 +654,7 @@ button {
 	box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .5);
 }
 
-#start{
+.start{
 	top:0;
 	text-align:center;
 	font-family: 'kaisei';
@@ -361,7 +665,7 @@ button {
 
 }
 
-#start:hover{
+.start:hover{
 	font-size:70px;
 	top:0;
 	text-align:center;
@@ -369,6 +673,49 @@ button {
 	background-color:#fad314;
 	width:350px;
 	height:150px;
+}
+.single{
+  top:0;
+  text-align:center;
+  margin: 0 auto;
+  font-family: 'kaisei';
+  background-color:#fad314;
+  width:350px;
+  height:150px;
+  font-size:65px;
+
+}
+
+.single:hover{
+  font-size:70px;
+  top:0;
+  text-align:center;
+  margin: 0 auto;
+
+  font-family: 'kaisei';
+  background-color:#fad314;
+  width:350px;
+  height:150px;
+}
+.multi{
+  top:0;
+  text-align:center;
+  margin: 0 auto;
+  font-family: 'kaisei';
+  background-color:#fad314;
+  width:400px;
+  height:150px;
+  font-size:60px;
+
+}
+.multi:hover{
+  font-size:62px;
+  top:0;
+  text-align:center;
+  margin: 0 auto;
+
+  font-family: 'kaisei';
+  background-color:#fad314;
 }
 
 #help{
@@ -525,6 +872,7 @@ label.error {
  width: 100%;
  height: 100%;
  overflow: auto;
+ z-index:9;
  background-color: rgba(0,0,0,0.4);
 }
 

@@ -71,7 +71,7 @@ const waza = {
     document.getElementById("mes").innerHTML =
       `${jibun_result.name}は${teki_result.name}にたいあたりをした！`;
     teki_hp2 = teki_hp;
-    teki_hp = Math.floor(teki_hp - (10 + jibun_atk - teki_def) / 20 - 10);
+    teki_hp = Math.floor(teki_hp - (10 + jibun_atk - teki_def) / 2 - 10);
     if (teki_hp > teki_hp_max) {
       teki_hp = teki_hp_max;
     } else if(teki_hp < 0) {

@@ -10,6 +10,7 @@ function check(mojimon) {
         busyu:部首,
         jukugo:熟語をさがせ！
         yomi:熟語の読み
+        setumei:図鑑説明
       }
     */
     case "火":
@@ -18,7 +19,8 @@ function check(mojimon) {
         kakusuu:4,
         busyu:4,
         jukugo:"火中",
-        yomi:"かちゅう"
+        yomi:"かちゅう",
+        setumei:"文字もんのなかで最もあつい炎を放つ。燃えているものを好む。"
       }
     case "水":
       return {

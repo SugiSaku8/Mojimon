@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ガラスUIサイドバー</title>
+    <style>
+      @font-face {
+        font-family: "cf";
+        src: url("font/CF/icomoon.eot?qtrohe");
+        src:
+          url("font/CF/icomoon.eot?qtrohe#iefix") format("embedded-opentype"),
+          url("font/CF/icomoon.ttf?qtrohe") format("truetype"),
+          url("font/CF/icomoon.woff?qtrohe") format("woff"),
+          url("font/CF/icomoon.svg?qtrohe#icomoon") format("svg");
+        font-weight: normal;
+        font-style: normal;
+        font-display: "swap";
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        /* use !important to prevent issues with browser extensions that change fonts */
+        font-family: "cf" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .glass-switch {
+        position: relative;
+        display: inline-block;
+        width: 110px;
+        height: 34px;
+      }
+
+      .switch-checkbox {
+        display: none;
+      }
+
+      .switch-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.45);
+        border-radius: 20px;
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .switch-checkbox:checked + .switch-label {
+        background-color: rgba(0, 128, 0, 0.45);
+      }
+
+      .switch-text {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: small;
+        color: #333;
+        transition: color 0.3s;
+      }
+
+      .switch-checkbox:checked + .switch-label + .switch-text {
+        color: #fff;
+      }
+      body {
+        font-family: "cf";
+        color: #ffffff;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+        backdrop-filter: blur(10px); /* Add backdrop filter to create depth */
+      }
+
+      .sidebar {
+        width: 250px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+        backdrop-filter: blur(10px); /* Apply blur to the background */
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        overflow-y: auto;
+        border-radius: 15px; /* Rounded corners for a softer appearance */
+        box-shadow: 0 5px 20px rgba(255, 152, 79, 0.5); /* Soft shadow for depth */
+      }
+
+      /* ... other styles remain unchanged ... */
+
+      .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.1
+        ); /* Semi-transparent background */
+        backdrop-filter: blur(10px); /* Apply blur to the background */
+        border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
+        border-radius: 15px; /* Rounded corners for a softer appearance */
+        box-shadow: 0 5px 20px rgba(255, 152, 79, 0.5); /* Soft shadow for depth */
+      }
+
+      .profile img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .profile h3 {
+        font-size: 1.5em;
+        margin: 10px 0;
+      }
+
+      .profile p {
+        font-size: 0.9em;
+        color: #aaa;
+      }
+
+      .menu {
+        list-style: none;
+        padding: 0;
+      }
+
+      .menu li {
+        padding: 10px;
+      }
+
+      .menu a {
+        text-decoration: none;
+        color: white;
+      }
+      user {
+        font-size: 18px;
+      }
+      omo {
+        font-size: 18px;
+      }
+      level {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <div class="profile">
+        <img src="user-avatar.jpg" alt="User Avatar" />
+        <h3 id="user"></h3>
+        <p>The test of Mojimon Setting Function</p>
+      </div>
+      <ul class="menu">
+        <li><a id="general_menu">一般</a></li>
+        <li><a id="graphics_menu">グラフィック</a></li>
+        <li><a id="sound_menu">サウンド</a></li>
+        <li><a id="data_menu">データ</a></li>
+        <li><a id="user_menu">ユーザー</a></li>
+      </ul>
+    </nav>
+    <section class="main-content">
+      <div id="general">
+        <h1>一般</h1>
+        <br />
+        <p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</p>
+        <br />
+        <user style="font-size: 35px">Sugisaku</user>
+        <br />
+        <omo>残り23000</omo>
+        <br />
+        <level>レベル260</level>
+        <br />
+        <p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</p>
+        <br />
+      </div>
+      <div id="graphics">
+        <h1>グラフィック</h1>
+        <br />
+        <p>GameEngine</p>
+        <div class="glass-switch">
+          <input type="checkbox" id="switch" class="switch-checkbox" />
+          <label for="switch" class="switch-label"></label>
+          <span class="switch-text"> WebKitEngine</span>
+        </div>
+        <p>WebKitEngineは、Web本来のパワーだけで構成されたエンジンです。</p>
+        <p>
+          WebKitEngineは、コンピューターのスペックが低くても大きなパワーを発揮します。
+        </p>
+        <p>
+          しかし、ハイスペックコンピューターの性能を最大限活かすことができない可能性があります。
+        </p>
+        <p>
+          InPyrexEngineは、ハードウェア本来のパワーを生かした高速なエンジンです。
+        </p>
+        <p>
+          InPyrexEngineは、ハイスペックなコンピューターの性能を最大限活かすことができます。
+        </p>
+        <p>
+          ただ、スペックの低いコンピューターだとパフォーマンスが落ちることがあります。
+        </p>
+      </div>
+      <div id="sound">
+        <h1>sound</h1>
+          <div class="glass-switch">
+            <input type="checkbox" id="sound_s" class="switch-checkbox" />
+            <label for="sound_s" class="switch-label"></label>
+            <span class="switch-text">標準圧縮サウンドシステム</span>
+          </div>
+      </div>
+      <div id="data">
+        <h1>データ</h1>
+      </div>
+      <div id="user">
+        <h1>ユーザー</h1>
+      </div>
+    </section>
+    <script>
+      // Select all content divs
+      const contentDivs = document.querySelectorAll(".main-content > div");
+
+      // Initially hide all content divs
+      contentDivs.forEach((div) => {
+        div.style.display = "none";
+      });
+
+      // Add click event listeners to the menu items
+      document.querySelectorAll(".menu li a").forEach((menuItem) => {
+        menuItem.addEventListener("click", function () {
+          // Get the id of the clicked menu item
+          const contentId = this.getAttribute("id").replace("_menu", "");
+
+          // Hide all content divs
+          contentDivs.forEach((div) => {
+            div.style.display = "none";
+          });
+
+          // Show the corresponding content div
+          document.getElementById(contentId).style.display = "block";
+        });
+      });
+      // Select all content divs
+        document.addEventListener("DOMContentLoaded", function () {
+            const switchCheckbox1 = document.getElementById("switch");
+            const switchText1 = document.querySelector("#switch + .switch-text");
+            switchCheckbox1.addEventListener("change", function () {
+                if (this.checked) {
+                    switchText1.textContent = "InpyrexEngine";
+                } else {
+                    switchText1.textContent = "WebKitEngine";
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const switchCheckbox2 = document.getElementById("sound_s");
+            const switchText2 = document.querySelector("#sound_s + .switch-text");
+            switchCheckbox2.addEventListener("change", function () {
+                if (this.checked) {
+                    switchText2.textContent = "DolbyAtmosサウンドシステム";
+                } else {
+                    switchText2.textContent = "標準圧縮サウンドシステム";
+                }
+            });
+        });
+
+    </script>
+  </body>
+</html>
