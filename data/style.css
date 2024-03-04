@@ -66,7 +66,7 @@
  border-radius: 15px;
  -webkit-backdrop-filter: blur(20px); /* ぼかしエフェクト */
  backdrop-filter: blur(20px);
- box-shadow: 0 5px 20px rgba(255, 152, 79, 0.5); /* 薄い影 */
+ box-shadow: 0 5px 20px rgba(161, 216, 255,0.8); /* 薄い影 */
  padding: 20px; /* 内側の余白 */
  color: #fff; /* テキスト色 */
   opacity: 0;
