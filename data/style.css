@@ -52,6 +52,34 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.notification{
+  position: fixed; /* 画面の右下に固定 */
+   bottom: 20px; /* 下側からの距離 */
+   right: 20px;
+}
+.notification-text {
+  position: fixed; /* 画面の右下に固定 */
+   bottom: 20px; /* 下側からの距離 */
+   right: 20px;
+ background-color: rgba(255, 255, 255, 0.1); /* 背景色 */
+ border: 1px solid rgba(255, 255, 255, 0.4); /* ボーダー */
+ border-radius: 15px;
+ -webkit-backdrop-filter: blur(20px); /* ぼかしエフェクト */
+ backdrop-filter: blur(20px);
+ box-shadow: 0 5px 20px rgba(255, 152, 79, 0.5); /* 薄い影 */
+ padding: 20px; /* 内側の余白 */
+ color: #fff; /* テキスト色 */
+  opacity: 0;
+   transition: opacity 0.5s ease;
+  border-radius: 10px;
+  width:auto;
+  height:auto;
+}
+
+
+.notification:hover .notification-text {
+ opacity: 1;
+}
 
 #other_user{
   float: right;
