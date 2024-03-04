@@ -316,17 +316,31 @@
       </div>
       <br />
       <button id="start" class="start" onclick="setup()">スタート</button>
-      <button id="start" class="play single" onclick="StartSinglePlay()">
+      <button
+        id="start"
+        class="play single"
+        onclick="StartSinglePlay()"
+        style="color: #000000"
+      >
         プレイ
       </button>
-      <button id="start" class="play multi" onclick="StartMultiPlay()">
+      <button
+        id="start"
+        class="play multi"
+        onclick="StartMultiPlay()"
+        style="color: #000000"
+      >
         マルチプレイ
       </button>
       <p></p>
       <button id="help" id="tutorial" onclick="tutorial()">ヘルプ</button>
       <p style="text-align: center; color: #ffff; font-size: 20px">
-        Mojimon V1.25
+        Mojimon V1.26
       </p>
+      <div class="notification">
+       <img src="/img/info.svg" alt="通知アイコン">
+       <div class="notification-text">令和6年3月4日、v1.26に更新されました。<br>ログイン時のバグなどを修正しました。<br>Carnation</div>
+      </div>
     </div>
     <div id="tokusyu">
       <div id="setup" class="setup">
@@ -833,7 +847,6 @@
             if (movexy === "RIGHT") dx += speed;
             xs += dx;
             ys += dy;
-
             // Apply the new position to the icons using stransform
             icon.style.transform = `translate(${xs}px, ${ys}px)`;
           }
@@ -1043,7 +1056,6 @@
         <div id="dialogueMessage"></div>
       </div>
     </div>
-
     <div id="trihiki" style="font-family: &quot;mojimon&quot;, &quot;cf&quot;">
       <div
         id="dialog"
@@ -1225,9 +1237,12 @@
       <div id="syounin_img"></div>
       <div id="item_img"></div>
     </div>
+    <div id="ginkou">
+      <script></script>
+    </div>
     <script info="mainscript">
       let url =
-        "https://mojimon.onrender.com/";
+        "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.repl.co/";
       let change;
       let Login;
       {
@@ -1838,7 +1853,7 @@
       async function get_save_data(username) {
         console.log("./n/d/" + username + ".moji");
         fetch(
-          `https://mojimon.onrender.com/get_save_data/${username}`,
+          `https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/get_save_data/${username}`,
           {
             method: "GET",
             headers: {
@@ -1901,7 +1916,7 @@
         let LivePositions = { name, x, y, status };
         try {
           let response = await fetch(
-            "https://mojimon.onrender.com/sendxy",
+            "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/sendxy",
             {
               mode: "cors", //CORSがでないのも怪しい
               method: "POST",
@@ -1986,7 +2001,7 @@
           // Skip null entries
           if (UserList === null) return;
           fetch(
-            `https://mojimon.onrender.com/positions/${UserList}`,
+            `https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/positions/${UserList}`,
             {
               method: "GET",
               headers: {
@@ -2024,7 +2039,7 @@
 
       function GetSignUpUserName() {
         fetch(
-          "https://mojimon.onrender.com/names",
+          "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev/names",
         )
           .then((response) => {
             if (!response.ok) {
@@ -2090,7 +2105,7 @@
       async function fetchChatHistory() {
         try {
           const response = await fetch(
-            "/chathistory",
+            "https://e4aa0edf-44a5-4534-bcf2-f5bd5ff79088-00-nrv22tf81lf6.kirk.replit.dev//chathistory",
           );
           const messages = await response.json();
 
@@ -2114,7 +2129,6 @@
         event.preventDefault();
         fetch("/sendmessage", {
           method: "POST",
-           mode: "no-cors",
           headers: {
             "Content-Type": "application/json",
           },
@@ -2190,7 +2204,7 @@
           document.getElementById("name").innerText = Login; //なんでログインしてないになるの？
         }
         if (lstas === true) {
-          document.getElementById("name").innerText = "ログインしていません。";
+          document.getElementById("name").innerText = "ログインしていませ2��。";
         }
         //ここは原因不明のバグが起きてるので、修正。
         document.getElementById("pl_nokori").innerText = onmoney;
@@ -2260,7 +2274,8 @@
         },
       };
     </script>
-    <!--  <video roop autoplay src="img/splash.mp4" id="splashScreen"></video>-->
+    <!--  <video roop autoplay src="img/splash.mp4" id=
+    "splashScreen"></video>-->
     <script>
       window.onload = function () {
         //document.getElementById("splashScreen").style.display = "none"
@@ -2349,7 +2364,7 @@
           scroll_Set(direction);
         }
       });
-      document.addEventListener("keydown", function (event) {
+      /* document.addEventListener("keydown", function (event) {
         const keyMap = {
           w: "up",
           s: "down",
@@ -2361,7 +2376,7 @@
         if (direction) {
           scroll_Set(direction);
         }
-      });
+      });*/
     </script>
     <script id="GamePadAPI">
       function scroll(direction) {
