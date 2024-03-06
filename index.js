@@ -393,7 +393,7 @@ function service() {
         let jsonData = JSON.parse(data);
         let targetData = jsonData.find((item) => item.name === name);
         if (targetData) {
-          var isMatch = bcrypt.compareSync(password, targetData.password); //
+          var isMatch = bcrypt.compareSync(password, targetData.password);
           response.send({ targetData, isMatch });
         } else {
           response
