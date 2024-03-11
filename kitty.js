@@ -9,93 +9,120 @@ const kitty = {
     testFunction: function(funcToTest) {
         try {
             funcToTest();
-            return "Function executed successfully.";
+            return "指定したプログラムは正しく動作しました。";
         } catch (error) {
-            return `Error occurred: ${error.message}`;
+            return `エラー: ${error.message}`;
         }
     },
-    isVariableType: function(variable) {
-        return typeof variable;
+    isType: function(value) {
+        return typeof value;
     },
-    isVariableNull: function(variable) {
-        return variable === null;
+    isNull: function(value) {
+        return value === null;
     },
-    isVariableUndefined: function(variable) {
-        return variable === undefined;
+    isUndefined: function(value) {
+        return value === undefined;
     },
-    isVariableArray: function(variable) {
-        return Array.isArray(variable);
+    isArray: function(value) {
+        return Array.isArray(value);
     },
-    isVariableFunction: function(variable) {
-        return typeof variable === 'function';
+    isFunction: function(value) {
+        return typeof value === 'function';
     },
-    isVariableObject: function(variable) {
-        return typeof variable === 'object' && variable !== null;
+    isObject: function(value) {
+        return typeof value === 'object' && value !== null;
     },
-    isVariableString: function(variable) {
-        return typeof variable === 'string';
+    isString: function(value) {
+        return typeof value === 'string';
     },
-    isVariableNumber: function(variable) {
-        return typeof variable === 'number';
+    isNumber: function(value) {
+        return typeof value === 'number';
     },
-    isVariableBoolean: function(variable) {
-        return typeof variable === 'boolean';
+    isBoolean: function(value) {
+        return typeof value === 'boolean';
     },
-    isVariableNaN: function(variable) {
-        return isNaN(variable);
+    isNaN: function(value) {
+        return isNaN(value);
     },
-    isVariableInfinity: function(variable) {
-        return variable === Infinity || variable === -Infinity;
+    isInfinity: function(value) {
+        return value === Infinity || value === -Infinity;
     },
-    isVariableNullOrUndefined: function(variable) {
-        return variable === null || variable === undefined;
+    isNullOrUndefined: function(value) {
+        return value === null || value === undefined;
     },
-    isVariableEmptyString: function(variable) {
-        return variable === '';
+    isEmptyString: function(value) {
+        return value === '';
     },
-    isVariableEmptyObject: function(variable) {
-        return Object.keys(variable).length === 0;
+    isEmptyObject: function(value) {
+        return Object.keys(value).length === 0;
     },
-    isVariableEmptyArray: function(variable) {
-        return Array.isArray(variable) && variable.length === 0;
+    isEmptyArray: function(value) {
+        return Array.isArray(value) && value.length === 0;
     },
-    isVariableEmptyMapOrSet: function(variable) {
-        return (variable instanceof Map || variable instanceof Set) && variable.size === 0;
+    isEmptyMapOrSet: function(value) {
+        return (value instanceof Map || value instanceof Set) && value.size === 0;
     },
-    isVariablePromise: function(variable) {
-        return variable instanceof Promise;
+    isPromise: function(value) {
+        return value instanceof Promise;
     },
-    isVariableSymbol: function(variable) {
-        return typeof variable === 'symbol';
+    isSymbol: function(value) {
+        return typeof value === 'symbol';
     },
-    isVariableBigInt: function(variable) {
-        return typeof variable === 'bigint';
+    isBigInt: function(value) {
+        return typeof value === 'bigint';
     },
-    isVariableRegExp: function(variable) {
-        return variable instanceof RegExp;
+    isRegExp: function(value) {
+        return value instanceof RegExp;
     },
-    isVariableDate: function(variable) {
-        return variable instanceof Date;
+    isDate: function(value) {
+        return value instanceof Date;
     },
-    isVariableError: function(variable) {
-        return variable instanceof Error;
+    isError: function(value) {
+        return value instanceof Error;
     },
-    isVariableTypeMatch: function(variable, expectedType) {
-        return typeof variable === expectedType;
+    isTypeMatch: function(value, expectedType) {
+        return typeof value === expectedType;
     },
-    isVariableValueMatch: function(variable, expectedValue) {
-        return variable === expectedValue;
+    isValueMatch: function(value, expectedValue) {
+        return value === expectedValue;
     },
-    isVariableInArray: function(variable, array) {
-        return array.includes(variable);
+    isInArray: function(value, array) {
+        return array.includes(value);
     },
-    isVariablePropertyOfObject: function(variable, object) {
-        return variable in object;
+    isPropertyOfObject: function(value, object) {
+        return value in object;
     },
     isMethodOfObject: function(methodName, object) {
         return typeof object[methodName] === 'function';
+    }, 
+    nres: async function(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTPエラー! ステータス: ${response.status}`);
+            }
+            return "ネットワークリクエストは200で完了しました。";
+        } catch (error) {
+            return `エラーが発生しました。: ${error.message}`;
+        }
+    },
+    sErr: function() {
+        throw new Error("Error. created by Kitty Base.");
+    },
+   ts200: async function(url) {
+        try {
+            const response = await fetch(url);
+            if (response.status === 200) {
+                return "ステータスコード200が返されました。";
+            } else {
+                throw new Error(`200以外のステータスコードが返されました。: ${response.status}`);
+            }
+        } catch (error) {
+            return `エラーが発生しました。: ${error.message}`;
+        }
     }
 };
+
 
 
 module.exports = kitty;
